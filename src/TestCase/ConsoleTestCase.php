@@ -3,6 +3,7 @@ namespace PhpSolution\FunctionalTest\TestCase;
 
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
  * Class ConsoleTestCase
@@ -12,19 +13,19 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 class ConsoleTestCase extends AppTestCase
 {
     /**
-     * @param string                  $commandName
-     * @param array                   $commandOptions
+     * @param string           $name
+     * @param array            $options
      * @param Application|null $consoleApp
      *
      * @return int
      */
-    public static function runConsoleCommand(string $commandName, array $commandOptions = [], Application $consoleApp = null): int
+    public static function runConsoleCommand(string $name, array $options = [], Application $consoleApp = null): int
     {
         $consoleApp = is_null($consoleApp) ? self::createConsoleApp() : $consoleApp;
-        $commandOptions['-e'] = isset($commandOptions['-e']) ? $commandOptions['-e'] : 'test';
-        $commandOptions['-q'] = null;
-        $commandOptions = array_merge($commandOptions, ['command' => $commandName]);
-        $result = $consoleApp->run(new ArrayInput($commandOptions));
+        $options['-e'] = isset($options['-e']) ? $options['-e'] : 'test';
+        $options['-q'] = null;
+        $options = array_merge($options, ['command' => $name]);
+        $result = $consoleApp->doRun(new ArrayInput($options), new ConsoleOutput());
 
         $consoleApp->getKernel()->shutdown();
 

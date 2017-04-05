@@ -2,14 +2,16 @@
 namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
 
 use PhpSolution\FunctionalTest\Command\FixturesLoadTruncateCommand;
-use PhpSolution\FunctionalTest\TestCase\ConsoleTestCase;
+use PhpSolution\FunctionalTest\Utils\CommandRunner;
+use PHPUnit\Framework\BaseTestListener;
+use PHPUnit\Framework\TestSuite;
 
 /**
  * Class FixtureLoader
  *
  * @package PhpSolution\FunctionalTest\PHPUnit\Listener
  */
-class FixtureLoader extends \PHPUnit_Framework_BaseTestListener
+class FixtureLoader extends BaseTestListener
 {
     /**
      * @var bool
@@ -31,19 +33,14 @@ class FixtureLoader extends \PHPUnit_Framework_BaseTestListener
     }
 
     /**
-     * @param \PHPUnit_Framework_TestSuite $suite
+     * @param TestSuite $suite
      */
-    public function startTestSuite(\PHPUnit_Framework_TestSuite $suite)
+    public function startTestSuite(TestSuite $suite)
     {
         if (!self::$wasCalled) {
             self::$wasCalled = true;
 
-            $commandName = FixturesLoadTruncateCommand::NAME;
-            $consoleApp = ConsoleTestCase::createConsoleApp();
-            if (!$consoleApp->has($commandName)) {
-                $consoleApp->add(new FixturesLoadTruncateCommand($commandName));
-            }
-            ConsoleTestCase::runConsoleCommand($commandName, $this->commandOptions, $consoleApp);
+            CommandRunner::runCommand(FixturesLoadTruncateCommand::NAME, $this->commandOptions, FixturesLoadTruncateCommand::class);
         }
     }
 }

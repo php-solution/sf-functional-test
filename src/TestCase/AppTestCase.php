@@ -148,7 +148,8 @@ class AppTestCase extends WebTestCase
     protected function refreshEntity($entity)
     {
         $em = $this->getDoctrine()->getManager();
+        $em->refresh($entity);
 
-        return $em->refresh($entity);
+        return $entity;
     }
 }
