@@ -1,0 +1,16 @@
+imports:
+    - { resource: ../_base/config.yml }
+    - { resource: doctrine.yml }
+    - { resource: security.yml }
+    - { resource: swifmailer.yml }
+    - { resource: monolog.yml }
+    - { resource: parameters.yml }
+
+framework:
+    test: ~
+    session:
+        name: 'PHPSESSIDSRE_TEST'
+        storage_id: 'session.storage.mock_file'
+    profiler:
+        collect: false
+        enabled: false

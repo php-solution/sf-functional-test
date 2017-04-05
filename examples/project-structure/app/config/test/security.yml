@@ -1,0 +1,6 @@
+security:
+    firewalls:
+        admin_secured:
+            http_basic: ~
+        user_secured:
+            http_basic: ~
