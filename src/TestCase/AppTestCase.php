@@ -4,6 +4,7 @@ namespace PhpSolution\FunctionalTest\TestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -32,17 +33,19 @@ class AppTestCase extends WebTestCase
     }
 
     /**
-     * Boots the Kernel for this test.
-     *
      * @param array $options
+     *
+     * @return \Symfony\Component\HttpKernel\KernelInterface
      */
-    protected static function bootKernel(array $options = self::DEFAULT_KERNEL_OPTS): void
+    protected static function bootKernel(array $options = self::DEFAULT_KERNEL_OPTS): KernelInterface
     {
         if (false === static::$kernelBooted) {
             static::$kernelBooted = true;
 
             parent::bootKernel($options);
         }
+
+        return static::$kernel;
     }
 
     /**

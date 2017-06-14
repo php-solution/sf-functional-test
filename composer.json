@@ -19,6 +19,7 @@
         "phpunit/phpunit" : "~6.0"
     },
     "suggest": {
+        "symfony/dotenv": "for use Env Listener which load env vars from paths",
         "doctrine/doctrine-bundle": "for use Doctrine on test cases",
         "doctrine/migrations": "for use Listener which run Doctrine migrations before test suite",
         "doctrine/doctrine-fixtures-bundle": "for use Listener which load Doctrine fixtures before test suite"
