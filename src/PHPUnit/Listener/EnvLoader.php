@@ -12,6 +12,10 @@ use PHPUnit\Framework\TestSuite;
 class EnvLoader extends BaseTestListener
 {
     /**
+     * @var bool
+     */
+    private static $wasCalled = false;
+    /**
      * @var array
      */
     private $paths = [];
@@ -31,6 +35,17 @@ class EnvLoader extends BaseTestListener
      */
     public function startTestSuite(TestSuite $suite): void
     {
-        (new Dotenv())->load(...$this->paths);
+        if (!self::$wasCalled) {
+            self::$wasCalled = true;
+
+            $dir = isset($GLOBALS['__PHPUNIT_CONFIGURATION_FILE']) ? dirname($GLOBALS['__PHPUNIT_CONFIGURATION_FILE']) : '';
+            $paths = array_map(
+                function (string $path) use ($dir) {
+                    return realpath($dir . DIRECTORY_SEPARATOR . $path);
+                },
+                $this->paths
+            );
+            (new Dotenv())->load(...$paths);
+        }
     }
 }
