@@ -24,7 +24,7 @@ class AppTestCase extends WebTestCase
     /**
      * @inheritdoc
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         static::$kernelBooted = false;
 
@@ -36,7 +36,7 @@ class AppTestCase extends WebTestCase
      *
      * @param array $options
      */
-    protected static function bootKernel(array $options = self::DEFAULT_KERNEL_OPTS)
+    protected static function bootKernel(array $options = self::DEFAULT_KERNEL_OPTS): void
     {
         if (false === static::$kernelBooted) {
             static::$kernelBooted = true;
