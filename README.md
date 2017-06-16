@@ -9,6 +9,23 @@ Add to composer.json:
 ````
 or if you run composer install without dev, but you must run phpunit to section "required"
 
+## Load environment variables from files
+Add to your phpunit.xml listener and configure arguments(relative file paths from your phpunit.xml configuration file):
+````XML 
+<listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\EnvLoader">
+    <arguments>
+        <array>
+            <element key="0">
+                <string>../.env</string>
+            </element>
+            <element key="1">
+                <string>.env</string>
+            </element>
+        </array>
+    </arguments>
+</listener>
+````
+
 ## Load Doctrine fixtures before test cases 
 Add to your phpunit.xml Listener:
 ````    
