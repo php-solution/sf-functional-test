@@ -1,7 +1,7 @@
 <?php
 namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
 
-use Doctrine\Bundle\FixturesBundle\Command\LoadDataFixturesDoctrineCommand;
+use Doctrine\Bundle\MigrationsBundle\Command\MigrationsMigrateDoctrineCommand;
 use PhpSolution\FunctionalTest\Utils\CommandRunner;
 use PHPUnit\Framework\BaseTestListener;
 use PHPUnit\Framework\TestSuite;
@@ -38,7 +38,7 @@ class MigrationLauncher extends BaseTestListener
         if (!self::$wasCalled) {
             self::$wasCalled = true;
 
-            CommandRunner::runCommand('doctrine:migrations:migrate', $this->commandOptions, LoadDataFixturesDoctrineCommand::class);
+            CommandRunner::runCommand('doctrine:migrations:migrate', $this->commandOptions, MigrationsMigrateDoctrineCommand::class);
         }
     }
 }

@@ -25,7 +25,7 @@ class ConsoleTestCase extends AppTestCase
         $options['-e'] = isset($options['-e']) ? $options['-e'] : 'test';
         $options['-q'] = null;
         $options = array_merge($options, ['command' => $name]);
-        $result = $consoleApp->doRun(new ArrayInput($options), new ConsoleOutput());
+        $result = $consoleApp->run(new ArrayInput($options), new ConsoleOutput());
 
         $consoleApp->getKernel()->shutdown();
 
