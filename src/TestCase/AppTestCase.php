@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpSolution\FunctionalTest\TestCase;
 
 use Symfony\Bundle\FrameworkBundle\Client;
@@ -9,9 +10,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
 /**
- * Class AppTestCase
- *
- * @package PhpSolution\FunctionalTest\TestCase
+ * AppTestCase
  */
 class AppTestCase extends WebTestCase
 {
@@ -35,7 +34,7 @@ class AppTestCase extends WebTestCase
     /**
      * @param array $options
      *
-     * @return \Symfony\Component\HttpKernel\KernelInterface
+     * @return KernelInterface
      */
     protected static function bootKernel(array $options = self::DEFAULT_KERNEL_OPTS): KernelInterface
     {
@@ -60,7 +59,7 @@ class AppTestCase extends WebTestCase
      * @param array $server
      * @param array $kernelOptions
      *
-     * @return \Symfony\Bundle\FrameworkBundle\Client
+     * @return Client
      */
     protected function getClient(array $server = [], array $kernelOptions = self::DEFAULT_KERNEL_OPTS): Client
     {
@@ -73,7 +72,7 @@ class AppTestCase extends WebTestCase
      * @param string $login
      * @param string $pass
      *
-     * @return \Symfony\Bundle\FrameworkBundle\Client
+     * @return Client
      */
     protected function getAuthorizedClient(string $login, string $pass): Client
     {
@@ -81,7 +80,7 @@ class AppTestCase extends WebTestCase
     }
 
     /**
-     * @return \Symfony\Component\DependencyInjection\ContainerInterface
+     * @return ContainerInterface
      */
     protected function getContainer(): ContainerInterface
     {
@@ -91,7 +90,7 @@ class AppTestCase extends WebTestCase
     }
 
     /**
-     * @return \Symfony\Component\Routing\RouterInterface
+     * @return RouterInterface
      */
     protected function getRouter(): RouterInterface
     {
@@ -105,7 +104,7 @@ class AppTestCase extends WebTestCase
      *
      * @return string
      */
-    protected function generateUrl($route, $params = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
+    protected function generateUrl(string $route, array $params = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         return $this->getRouter()->generate($route, $params, $referenceType);
     }

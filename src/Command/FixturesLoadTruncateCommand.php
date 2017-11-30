@@ -1,4 +1,5 @@
 <?php
+
 namespace PhpSolution\FunctionalTest\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
@@ -8,9 +9,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 /**
- * Class FixturesLoadTruncateCommand
- *
- * @package PhpSolution\FunctionalTest\Command
+ * FixturesLoadTruncateCommand
  */
 class FixturesLoadTruncateCommand extends ContainerAwareCommand
 {

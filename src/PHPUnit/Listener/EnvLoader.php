@@ -2,19 +2,22 @@
 
 namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
 
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
 use Symfony\Component\Dotenv\Dotenv;
-use PHPUnit\Framework\BaseTestListener;
 use PHPUnit\Framework\TestSuite;
 
 /**
- * Class EnvLoader
+ * EnvLoader
  */
-class EnvLoader extends BaseTestListener
+class EnvLoader implements TestListener
 {
+    use TestListenerDefaultImplementation;
+
     /**
      * @var bool
      */
-    private static $wasCalled = false;
+    private $wasCalled = false;
     /**
      * @var array
      */
@@ -35,17 +38,18 @@ class EnvLoader extends BaseTestListener
      */
     public function startTestSuite(TestSuite $suite): void
     {
-        if (!self::$wasCalled) {
-            self::$wasCalled = true;
-
-            $dir = isset($GLOBALS['__PHPUNIT_CONFIGURATION_FILE']) ? dirname($GLOBALS['__PHPUNIT_CONFIGURATION_FILE']) : '';
-            $paths = array_map(
-                function (string $path) use ($dir) {
-                    return realpath($dir . DIRECTORY_SEPARATOR . $path);
-                },
-                $this->paths
-            );
-            (new Dotenv())->load(...$paths);
+        if ($this->wasCalled) {
+            return;
         }
+        $this->wasCalled = true;
+
+        $dir = isset($GLOBALS['__PHPUNIT_CONFIGURATION_FILE']) ? dirname($GLOBALS['__PHPUNIT_CONFIGURATION_FILE']) : '';
+        $paths = array_map(
+            function (string $path) use ($dir) {
+                return $dir . DIRECTORY_SEPARATOR . $path;
+            },
+            $this->paths
+        );
+        (new Dotenv())->load(...$paths);
     }
 }

@@ -1,14 +1,13 @@
 <?php
+
 namespace PhpSolution\FunctionalTest\TestCase;
 
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
- * Class ConsoleTestCase
- *
- * @package PhpSolution\FunctionalTest\TestCase
+ * ConsoleTestCase
  */
 class ConsoleTestCase extends AppTestCase
 {
@@ -18,6 +17,7 @@ class ConsoleTestCase extends AppTestCase
      * @param Application|null $consoleApp
      *
      * @return int
+     * @throws \Exception
      */
     public static function runConsoleCommand(string $name, array $options = [], Application $consoleApp = null): int
     {
