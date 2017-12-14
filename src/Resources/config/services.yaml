@@ -1,0 +1,5 @@
+services:
+    functional_test.fixtures_load_command:
+        class: 'PhpSolution\FunctionalTest\Command\FixturesLoadTruncateCommand'
+        tags:
+            - { name: 'console.command', command: 'functional-test:load-fixtures' }

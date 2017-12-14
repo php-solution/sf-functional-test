@@ -2,7 +2,7 @@
 
 namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
 
-use PhpSolution\FunctionalTest\Utils\CommandRunner;
+use PhpSolution\FunctionalTest\TestCase\ConsoleTestCase;
 use PHPUnit\Framework\TestListener;
 use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
@@ -21,19 +21,19 @@ class CommandLauncher implements TestListener
     /**
      * @var string
      */
-    private $class;
+    private $command;
     /**
      * @var array
      */
     private $options = [];
 
     /**
-     * @param string $class
+     * @param string $command
      * @param array  $options
      */
-    public function __construct($class, array $options = [])
+    public function __construct($command, array $options = [])
     {
-        $this->class = $class;
+        $this->command = $command;
         $this->options = $options;
     }
 
@@ -49,6 +49,6 @@ class CommandLauncher implements TestListener
         }
         $this->wasCalled = true;
 
-        CommandRunner::runCommand($this->class, $this->options);
+        ConsoleTestCase::runConsoleCommand($this->command, $this->options);
     }
 }

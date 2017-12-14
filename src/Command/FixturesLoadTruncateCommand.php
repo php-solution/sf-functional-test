@@ -23,7 +23,7 @@ class FixturesLoadTruncateCommand extends ContainerAwareCommand
         $this
             ->setName(self::NAME)
             ->setDescription('Load fixtures with truncate all tables')
-            ->addOption('fixtures', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY)
+            ->addOption('fixtures', null, InputOption::VALUE_OPTIONAL)
             ->addOption('connection', null, InputOption::VALUE_OPTIONAL);
     }
 
