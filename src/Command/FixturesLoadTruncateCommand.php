@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
  */
 class FixturesLoadTruncateCommand extends ContainerAwareCommand
 {
-    const NAME = 'functional-test:load-fixtures';
+    const NAME = 'functional-test:fixtures:load';
 
     /**
      * Configure
@@ -23,7 +23,6 @@ class FixturesLoadTruncateCommand extends ContainerAwareCommand
         $this
             ->setName(self::NAME)
             ->setDescription('Load fixtures with truncate all tables')
-            ->addOption('fixtures', null, InputOption::VALUE_OPTIONAL)
             ->addOption('connection', null, InputOption::VALUE_OPTIONAL);
     }
 
@@ -39,20 +38,13 @@ class FixturesLoadTruncateCommand extends ContainerAwareCommand
         $connection->prepare('SET FOREIGN_KEY_CHECKS=0')->execute();
 
         $command = $this->getApplication()->find('doctrine:fixtures:load');
-        $defaultOptions = [
+        $parameters = [
             'command' => 'doctrine:fixtures:load',
             '--no-interaction' => true,
             '--purge-with-truncate' => true,
         ];
-        $options = [];
-        if (!empty($fixturesPath = $input->getOption('fixtures'))) {
-            $kernelRootDir = $this->getContainer()->getParameter('kernel.root_dir');
-            $fixturesPath = realpath(str_replace('%kernel.root_dir%', $kernelRootDir, $fixturesPath));
-            $options['--fixtures'] = $fixturesPath;
-        }
-        $arguments = array_merge($options, $defaultOptions);
 
-        $input = new ArrayInput($arguments);
+        $input = new ArrayInput($parameters);
         $input->setInteractive(false);
         $returnCode = $command->run($input, $output);
         $connection->prepare('SET FOREIGN_KEY_CHECKS=1')->execute();
