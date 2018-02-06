@@ -1,13 +1,9 @@
 # Symfony Functional Test
 
-## Installations
-Add to composer.json:
-````
-"require-dev": {
-    "php-solution/sf-functional-test": "dev-master"
-},
-````
-or if you run composer install without dev, but you must run phpunit to section "required"
+## Install
+   ```` bash
+   $ composer require php-solution/sf-functional-test
+   ````
 
 ## Load environment variables from files
 Add to your phpunit.xml listener and configure arguments(relative file paths from your phpunit.xml configuration file):
@@ -29,22 +25,20 @@ Add to your phpunit.xml listener and configure arguments(relative file paths fro
 ## Load Doctrine fixtures before test cases 
 Add to your phpunit.xml Listener:
 ````    
-<listeners>
-    <listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\FixtureLoader" />
+<listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\CommandLauncher">
     <arguments>
-        <array>
-            <element key="--fixtures">
-                <string>%kernel.root_dir%/../tests/DataFixtures</string>
-            </element>
-        </array>
+        <string>functional-test:fixtures:load</string>
     </arguments>
-</listeners>
+</listener>
 ````
 
 ## Run Doctrine migrations before test cases 
 Add to your phpunit.xml Listener:
 ````    
-<listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\MigrationLauncher">
+<listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\CommandLauncher">
+    <arguments>
+        <string>doctrine:migrations:migrate</string>
+    </arguments>
 </listener>
 ````
     
@@ -62,25 +56,20 @@ security:
 $client = $this->getAuthorizedClient('user_login', 'password');
 ````
 
-### Work with Symfony DI Container
-````
-protected function getContainer()
-protected function getRouter()
-protected function generateUrl($route, $params = [], $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH)
-protected function getSecurityToken()
-```` 
 
 ### Work with Doctrine
-1. Get doctrine service(return $this->container->get('doctrine')):
+1. Add OrmTrait to your TestCase
+
+2. Get doctrine service(return $this->container->get('doctrine')):
 ````
 $this->getDoctrine()
 ````  
-2. Find Entity helper method:
+3. Find Entity helper method:
 ````    
 protected function findTestEntity($entityClass, $orderBy = 'id', $findBy = [])
 ````
    
-3. Refresh Entity:
+4. Refresh Entity:
 ````
 protected function refreshEntity($entity) 
 ````
