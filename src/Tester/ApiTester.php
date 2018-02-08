@@ -2,6 +2,7 @@
 
 namespace PhpSolution\FunctionalTest\Tester;
 
+use PhpSolution\FunctionalTest\Assert\ResponseAsserter;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ApiTester
 {
+    use ResponseAsserter;
+
     /**
      * @var Client
      */
