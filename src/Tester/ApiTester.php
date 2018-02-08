@@ -2,7 +2,7 @@
 
 namespace PhpSolution\FunctionalTest\Tester;
 
-use PhpSolution\FunctionalTest\Assert\ResponseAsserter;
+use PhpSolution\FunctionalTest\Response\ResponseWrapper;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ApiTester
 {
-    use ResponseAsserter;
-
     /**
      * @var Client
      */
@@ -56,11 +54,17 @@ class ApiTester
     protected $response;
 
     /**
+     * @var string
+     */
+    protected $responseClass;
+
+    /**
      * @param Client $client
      */
-    public function __construct(Client $client)
+    public function __construct(Client $client, string $responseClass = ResponseWrapper::class)
     {
         $this->client = $client;
+        $this->responseClass = $responseClass;
         $this->requestHeaders = [];
     }
 
@@ -133,20 +137,12 @@ class ApiTester
     }
 
     /**
-     * @return array
-     */
-    protected function transformResponseContent(): array
-    {
-        return json_decode($this->response->getContent(), true);
-    }
-
-    /**
      * @param string $path
      * @param array  $data
      *
-     * @return array
+     * @return ResponseWrapper
      */
-    public function sendGet(string $path, array $data = []): array
+    public function sendGet(string $path, array $data = []): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_GET, $path, $data);
     }
@@ -155,9 +151,9 @@ class ApiTester
      * @param string $path
      * @param array  $data
      *
-     * @return array
+     * @return ResponseWrapper
      */
-    public function sendPost(string $path, array $data = []): array
+    public function sendPost(string $path, array $data = []): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_POST, $path, $data);
     }
@@ -166,9 +162,9 @@ class ApiTester
      * @param string $path
      * @param array  $data
      *
-     * @return array
+     * @return ResponseWrapper
      */
-    public function sendPut(string $path, array $data = []): array
+    public function sendPut(string $path, array $data = []): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_PUT, $path, $data);
     }
@@ -176,9 +172,9 @@ class ApiTester
     /**
      * @param string $path
      *
-     * @return array
+     * @return ResponseWrapper
      */
-    public function sendDelete(string $path): array
+    public function sendDelete(string $path): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_DELETE, $path, []);
     }
@@ -187,9 +183,9 @@ class ApiTester
      * @param string $path
      * @param array  $data
      *
-     * @return array
+     * @return ResponseWrapper
      */
-    public function sendPATCH(string $path, array $data = []): array
+    public function sendPatch(string $path, array $data = []): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_PATCH, $path, $data);
     }
@@ -199,9 +195,9 @@ class ApiTester
      * @param string $method
      * @param array  $data
      *
-     * @return array
+     * @return ResponseWrapper
      */
-    public function sendRequest(string $method, string $path, array $data = []): array
+    public function sendRequest(string $method, string $path, array $data = []): ResponseWrapper
     {
         $this->method = $method;
         $this->path = $path;
@@ -214,8 +210,6 @@ class ApiTester
 
         $this->response = $this->client->getResponse();
 
-        return $this
-            ->assertResponse()
-            ->transformResponseContent();
+        return new $this->responseClass($this->assertResponse()->response);
     }
 }

@@ -4,7 +4,6 @@ namespace PhpSolution\FunctionalTest\Assert;
 
 use JsonSchema\Constraints\Constraint;
 use JsonSchema\Validator;
-use PHPUnit\Framework\Assert;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\RuntimeException;

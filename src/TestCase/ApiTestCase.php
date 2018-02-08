@@ -2,6 +2,7 @@
 
 namespace PhpSolution\FunctionalTest\TestCase;
 
+use PhpSolution\FunctionalTest\Assert\ResponseAsserter;
 use PhpSolution\FunctionalTest\Tester\ApiTester;
 
 /**
@@ -9,6 +10,8 @@ use PhpSolution\FunctionalTest\Tester\ApiTester;
  */
 class ApiTestCase extends AppTestCase
 {
+    use ResponseAsserter;
+
     /**
      * @return ApiTester
      */

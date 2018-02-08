@@ -11,14 +11,15 @@
     ],
     "require": {
         "php": "^7.1",
+        "doctrine/data-fixtures": "^1.2",
+        "justinrainbow/json-schema": "dev-master",
+        "nelmio/alice": "^3.0",
         "phpunit/phpunit": "^7.0",
         "symfony/console": ">=4.0",
         "symfony/framework-bundle": ">=4.0",
         "symfony/property-access": "^4.0",
         "symfony/browser-kit": "^4.0",
         "symfony/phpunit-bridge": "^4.0",
-        "doctrine/data-fixtures": "^1.2",
-        "nelmio/alice": "^3.0",
         "theofidry/alice-data-fixtures": "^1.0"
     },
     "suggest": {
