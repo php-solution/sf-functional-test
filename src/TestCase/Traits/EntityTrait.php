@@ -1,14 +1,14 @@
 <?php
 
-namespace PhpSolution\FunctionalTest\Traits;
+namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\AbstractManagerRegistry;
 
 /**
- * OrmTrait
+ * EntityTrait
  */
-trait OrmTrait
+trait EntityTrait
 {
     /**
      * @return AbstractManagerRegistry|object

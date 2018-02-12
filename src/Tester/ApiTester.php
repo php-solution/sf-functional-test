@@ -93,10 +93,16 @@ class ApiTester
     }
 
     /**
+     * @param string $token
+     * @param string $header
+     * @param string $headerKey
+     *
      * @return self
      */
-    protected function authorize(): ApiTester
+    public function authorize(string $token, string $header = 'Bearer %s', string $headerKey = 'HTTP_AUTHORIZATION'): ApiTester
     {
+        $this->requestHeaders[$headerKey] = sprintf($header, $token);
+
         return $this;
     }
 
@@ -204,7 +210,6 @@ class ApiTester
         $this->data = $data;
 
         $this
-            ->authorize()
             ->setRequestContentType();
         $this->client->request($method, $path, $this->getRequestParameters(), $this->files, $this->requestHeaders, $this->getRequestContent());
 

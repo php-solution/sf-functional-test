@@ -57,21 +57,23 @@ $client = $this->getAuthorizedClient('user_login', 'password');
 ````
 
 
-### Work with Doctrine
-1. Add OrmTrait to your TestCase
+### Work with Doctrine (ORM, ODM)
+1. Add EntityTrait or DocumentTrait to your TestCase
 
-2. Get doctrine service(return $this->container->get('doctrine')):
 ````
 $this->getDoctrine()
 ````  
 3. Find Entity helper method:
 ````    
-protected function findTestEntity($entityClass, $orderBy = 'id', $findBy = [])
+protected function findEntity(string $entityClass, string $orderBy = 'id', array $findBy = [])
+protected function findDocument(string $documentClass, array $criteria = [])
+protected function findDocuments(string $documentClass, array $criteria = [], array $orderBy = [])
 ````
    
 4. Refresh Entity:
 ````
 protected function refreshEntity($entity) 
+protected function refreshDocument($document)
 ````
 
 ## Example of correct project structure:

@@ -61,4 +61,15 @@ abstract class AppTestCase extends WebTestCase
 
         return static::$kernel->getContainer();
     }
+
+    /**
+     * @param string $name
+     * @param array  $parameters
+     *
+     * @return string
+     */
+    protected function generateUrl(string $name, array $parameters = []): string
+    {
+        return $this->getContainer()->get('router')->generate($name, $parameters);
+    }
 }

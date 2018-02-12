@@ -28,8 +28,6 @@ trait ResponseAsserter
      * @param Response $response
      * @param array    $schema
      * @param int      $checkMode
-     *
-     * @throws \Exception
      */
     public function assertResponseMatchesJsonType(Response $response, array $schema, int $checkMode = Constraint::CHECK_MODE_TYPE_CAST)
     {
@@ -54,8 +52,6 @@ trait ResponseAsserter
      *
      * @param Response $response
      * @param array    $expectedProperties
-     *
-     * @throws \Exception
      */
     public function assertResponsePropertiesExist(Response $response, array $expectedProperties)
     {
@@ -70,8 +66,6 @@ trait ResponseAsserter
      *
      * @param Response $response
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
-     *
-     * @throws \Exception
      */
     public function assertResponsePropertyExists(Response $response, $propertyPath)
     {
@@ -84,8 +78,6 @@ trait ResponseAsserter
      *
      * @param Response $response
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
-     *
-     * @throws \Exception
      */
     public function assertResponsePropertyDoesNotExist(Response $response, $propertyPath)
     {
@@ -105,8 +97,6 @@ trait ResponseAsserter
      * @param Response $response
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
      * @param mixed    $expectedValue
-     *
-     * @throws \Exception
      */
     public function assertResponsePropertyEquals(Response $response, $propertyPath, $expectedValue)
     {
@@ -128,8 +118,6 @@ trait ResponseAsserter
      *
      * @param Response $response
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
-     *
-     * @throws \Exception
      */
     public function assertResponsePropertyIsArray(Response $response, $propertyPath)
     {
@@ -142,8 +130,6 @@ trait ResponseAsserter
      * @param Response $response
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
      * @param integer  $expectedCount
-     *
-     * @throws \Exception
      */
     public function assertResponsePropertyCount(Response $response, $propertyPath, $expectedCount)
     {
@@ -158,8 +144,6 @@ trait ResponseAsserter
      * @param Response $response
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
      * @param mixed    $expectedValue
-     *
-     * @throws \Exception
      */
     public function assertResponsePropertyContains(Response $response, $propertyPath, $expectedValue)
     {
@@ -185,7 +169,6 @@ trait ResponseAsserter
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
      *
      * @return mixed
-     * @throws \Exception
      */
     public function readResponseProperty(Response $response, $propertyPath)
     {

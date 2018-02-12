@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpSolution\FunctionalTest\Traits;
+namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

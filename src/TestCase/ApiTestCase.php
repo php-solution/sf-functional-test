@@ -15,8 +15,8 @@ class ApiTestCase extends AppTestCase
     /**
      * @return ApiTester
      */
-    protected static function createTester(): ApiTester
+    protected static function createTester(string $class = ApiTester::class): ApiTester
     {
-        return new ApiTester(static::createClient());
+        return new $class(static::createClient());
     }
 }
