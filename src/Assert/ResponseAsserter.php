@@ -32,6 +32,24 @@ trait ResponseAsserter
     public function assertResponseMatchesJsonType(Response $response, array $schema, int $checkMode = Constraint::CHECK_MODE_TYPE_CAST)
     {
         $data = json_decode($response->getContent(), true);
+
+        return self::assertDataMatchesJsonType($data, $schema, $checkMode);
+    }
+
+    /**
+     * Asserts the data matches json schema
+     *
+     * @documentation https://github.com/justinrainbow/json-schema
+     *
+     * @param Response $response
+     * @param array    $schema
+     * @param int      $checkMode
+     */
+    public function assertDataMatchesJsonType($data, array $schema, int $checkMode = Constraint::CHECK_MODE_TYPE_CAST)
+    {
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
         $schema = json_decode(json_encode($schema), false); //convert to object
 
         $validator = new Validator();
