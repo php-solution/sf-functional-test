@@ -22,15 +22,15 @@ trait EntityTrait
      * This is more convenient alias for getting test entity.
      *
      * @param string $entityClass
-     * @param string $orderBy
      * @param array  $findBy
+     * @param array  $orderBy
      *
      * @return object|null
      */
-    protected function findEntity(string $entityClass, string $orderBy = 'id', array $findBy = [])
+    protected function findEntity(string $entityClass, array $findBy = [], array $orderBy = [])
     {
         $repository = $this->getDoctrine()->getRepository($entityClass);
-        $result = $repository->findBy($findBy, [$orderBy => 'DESC'], 1, 0);
+        $result = $repository->findBy($findBy, $orderBy, 1, 0);
 
         return count($result) > 0 ? $result[0] : null;
     }

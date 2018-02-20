@@ -21,7 +21,13 @@ trait FixturesTrait
         foreach ($files as $file) {
             $fixtureFiles[] = $this->doLocateFiles($file);
         }
-        $loader = $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine_mongodb');
+
+        $container = $this->getContainer();
+        if ($container->has('fidry_alice_data_fixtures.loader.doctrine_mongodb')) {
+            $loader = $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine_mongodb');
+        } else {
+            $loader = $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine');
+        }
 
         return $loader->load($fixtureFiles);
     }
