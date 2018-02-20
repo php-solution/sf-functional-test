@@ -76,5 +76,25 @@ protected function refreshEntity($entity)
 protected function refreshDocument($document)
 ````
 
+### Test emails
+
+1. Add config
+```yaml
+swiftmailer:
+    disable_delivery: true
+    spool:
+        type: file
+        path: '%kernel.project_dir%/var/spool'
+    delivery_addresses: ~
+```
+
+2. Add SpoolTrait and find methods
+````
+public function purgeSpool()
+public function getSpooledEmails()
+public function getEmailContent($file)
+protected function getSpoolDir()
+````
+
 ## Example of correct project structure:
 See correct project structure and configs for functional tests on [link](/examples/project-structure/)
