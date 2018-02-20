@@ -17,12 +17,14 @@ trait SpoolTrait
      */
     public function purgeSpool()
     {
-        $filesystem = new Filesystem();
-        $finder = $this->getSpooledEmails();
+        if (is_dir($this->getSpoolDir())) {
+            $filesystem = new Filesystem();
+            $finder = $this->getSpooledEmails();
 
-        /** @var File $file */
-        foreach ($finder as $file) {
-            $filesystem->remove($file->getRealPath());
+            /** @var File $file */
+            foreach ($finder as $file) {
+                $filesystem->remove($file->getRealPath());
+            }
         }
     }
 
