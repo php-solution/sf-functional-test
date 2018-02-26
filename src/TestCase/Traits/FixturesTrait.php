@@ -14,12 +14,12 @@ trait FixturesTrait
      *
      * @return mixed
      */
-    public function load(array $files)
+    protected function load(array $files)
     {
         $fixtureFiles = [];
 
         foreach ($files as $file) {
-            $fixtureFiles[] = $this->doLocateFiles($file);
+            $fixtureFiles[] = $this->doLocateFile($file);
         }
 
         $container = $this->getContainer();
@@ -35,9 +35,19 @@ trait FixturesTrait
     /**
      * @param string $path
      *
+     * @return array
+     */
+    protected function getFixturesFromJson(string $path): array
+    {
+        return json_decode(file_get_contents($this->doLocateFile($path)), true);
+    }
+
+    /**
+     * @param string $path
+     *
      * @return string
      */
-    protected function doLocateFiles(string $path): string
+    private function doLocateFile(string $path): string
     {
         $path = sprintf('%s/%s', 'tests/DataFixtures', $path);
         $path = realpath($path);

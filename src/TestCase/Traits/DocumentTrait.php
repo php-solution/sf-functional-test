@@ -40,7 +40,7 @@ trait DocumentTrait
      * @param array  $criteria
      * @param array  $orderBy
      *
-     * @return object|null
+     * @return array
      */
     protected function findDocuments(string $documentClass, array $criteria = [], array $orderBy = [])
     {
