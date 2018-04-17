@@ -18,14 +18,16 @@ class CommandLauncher implements TestListener
      * @var bool
      */
     private $wasCalled = false;
+
     /**
      * @var string
      */
     private $command;
+
     /**
      * @var array
      */
-    private $options = [];
+    private $options;
 
     /**
      * @param string $command
@@ -49,6 +51,11 @@ class CommandLauncher implements TestListener
         }
         $this->wasCalled = true;
 
-        ConsoleTestCase::runConsoleCommand($this->command, $this->options);
+        // By default, set output verbosity - quiet
+        if (0 === count(array_intersect(array_keys($this->options), ['-q', '-v', '--v', '---v']))) {
+            $this->options['-q'] = true;
+        }
+
+        print ConsoleTestCase::runConsoleCommand($this->command, $this->options)->fetch();
     }
 }

@@ -4,7 +4,7 @@ namespace PhpSolution\FunctionalTest\TestCase;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * ConsoleTestCase
@@ -16,20 +16,24 @@ class ConsoleTestCase extends AppTestCase
      * @param array            $options
      * @param Application|null $consoleApp
      *
-     * @return int
+     * @return BufferedOutput
      * @throws \Exception
      */
-    public static function runConsoleCommand(string $name, array $options = [], Application $consoleApp = null): int
+    public static function runConsoleCommand(string $name, array $options = [], Application $consoleApp = null): BufferedOutput
     {
         $consoleApp = is_null($consoleApp) ? self::createConsoleApp() : $consoleApp;
         $options['-e'] = isset($options['-e']) ? $options['-e'] : 'test';
-        $options['-q'] = null;
+        // By default, set output verbosity - verbose
+        if (0 === count(array_intersect(array_keys($options), ['-q', '-v', '--v', '---v']))) {
+            $options['-v'] = true;
+        }
         $options = array_merge($options, ['command' => $name]);
-        $result = $consoleApp->run(new ArrayInput($options), new ConsoleOutput());
+        $output = new BufferedOutput();
+        $consoleApp->run(new ArrayInput($options), $output);
 
         $consoleApp->getKernel()->shutdown();
 
-        return $result;
+        return $output;
     }
 
     /**
