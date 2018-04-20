@@ -27,16 +27,16 @@ class CommandLauncher implements TestListener
     /**
      * @var array
      */
-    private $options;
+    private $parameters;
 
     /**
      * @param string $command
-     * @param array  $options
+     * @param array  $parameters
      */
-    public function __construct($command, array $options = [])
+    public function __construct($command, array $parameters = [])
     {
         $this->command = $command;
-        $this->options = $options;
+        $this->parameters = $parameters;
     }
 
     /**
@@ -52,10 +52,10 @@ class CommandLauncher implements TestListener
         $this->wasCalled = true;
 
         // By default, set output verbosity - quiet
-        if (0 === count(array_intersect(array_keys($this->options), ['-q', '-v', '--v', '---v']))) {
-            $this->options['-q'] = true;
+        if (0 === count(array_intersect(array_keys($this->parameters), ['-q', '-v', '--v', '---v']))) {
+            $this->parameters['-q'] = true;
         }
 
-        print ConsoleTestCase::runConsoleCommand($this->command, $this->options)->fetch();
+        print ConsoleTestCase::runConsoleCommand($this->command, $this->parameters)->fetch();
     }
 }
