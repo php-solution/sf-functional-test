@@ -52,7 +52,7 @@ class CommandLauncher implements TestListener
         $this->wasCalled = true;
 
         // By default, set output verbosity - quiet
-        if (0 === count(array_intersect(array_keys($this->parameters), ['-q', '-v', '--v', '---v']))) {
+        if (0 === count(array_intersect(array_keys($this->parameters), ['-q', '-v', '-vv', '-vvv']))) {
             $this->parameters['-q'] = true;
         }
 

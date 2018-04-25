@@ -24,7 +24,7 @@ class ConsoleTestCase extends AppTestCase
         $consoleApp = is_null($consoleApp) ? self::createConsoleApp() : $consoleApp;
         $parameters['-e'] = isset($parameters['-e']) ? $parameters['-e'] : 'test';
         // By default, set output verbosity - verbose
-        if (0 === count(array_intersect(array_keys($parameters), ['-q', '-v', '--v', '---v']))) {
+        if (0 === count(array_intersect(array_keys($parameters), ['-q', '-v', '-vv', '-vvv']))) {
             $parameters['-v'] = true;
         }
         $parameters = array_merge(['command' => $name], $parameters);
