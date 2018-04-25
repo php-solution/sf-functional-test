@@ -10,11 +10,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 trait FixturesTrait
 {
     /**
-     * @param array $files
+     * @param array       $files
+     * @param string|null $type expected values: null, orm, odm
      *
      * @return mixed
+     *
+     * @throws \Exception
      */
-    protected function load(array $files)
+    protected function load(array $files, ?string $type = null)
     {
         $fixtureFiles = [];
 
@@ -23,10 +26,18 @@ trait FixturesTrait
         }
 
         $container = $this->getContainer();
-        if ($container->has('fidry_alice_data_fixtures.loader.doctrine_mongodb')) {
-            $loader = $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine_mongodb');
-        } else {
-            $loader = $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine');
+        switch (true)
+        {
+            case 'odm' === $type:
+            case $container->has('fidry_alice_data_fixtures.loader.doctrine_mongodb') && null === $type:
+                $loader = $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine_mongodb');
+                break;
+            case 'orm' === $type:
+            case $container->has('fidry_alice_data_fixtures.loader.doctrine') && null === $type:
+                $loader = $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine');
+                break;
+            default:
+                throw new \Exception('Imposible situation, please check your doctrine configuration');
         }
 
         return $loader->load($fixtureFiles);
