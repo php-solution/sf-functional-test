@@ -61,13 +61,13 @@ trait FixturesTrait
     private function doLocateFile(string $path): string
     {
         $path = sprintf('%s/%s', 'tests/DataFixtures', $path);
-        $path = realpath($path);
+        $realPath = realpath($path);
 
-        if (false === $path || false === file_exists($path)) {
+        if (false === $realPath || false === file_exists($realPath)) {
             throw new \LogicException(sprintf("File %s does not exist", $path));
         }
 
-        return $path;
+        return $realPath;
     }
 
     /**
