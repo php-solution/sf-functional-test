@@ -2,6 +2,8 @@
 
 namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
+use PhpSolution\FunctionalTest\Fixtures\OdmFixtureLoader;
+use PhpSolution\FunctionalTest\Fixtures\OrmFixtureLoader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -11,36 +13,48 @@ trait FixturesTrait
 {
     /**
      * @param array       $files
+     * @param null|string $entityManagerName
+     *
+     * @return array
+     */
+    protected function loadOrm(array $files, string $entityManagerName = null)
+    {
+        return (new OrmFixtureLoader($this->getContainer()))->load($files, $entityManagerName);
+    }
+
+    /**
+     * @param array       $files
+     * @param null|string $documentManagerName
+     *
+     * @return array
+     */
+    protected function loadOdm(array $files, string $documentManagerName = null)
+    {
+        return (new OdmFixtureLoader($this->getContainer()))->load($files, $documentManagerName);
+    }
+
+    /**
+     * @param array       $files
      * @param string|null $type expected values: null, orm, odm
+     * @param string|null $objectManagerName
      *
      * @return mixed
      *
      * @throws \Exception
      */
-    protected function load(array $files, ?string $type = null)
+    protected function load(array $files, string $type = null, string $objectManagerName = null)
     {
-        $fixtureFiles = [];
-
-        foreach ($files as $file) {
-            $fixtureFiles[] = $this->doLocateFile($file);
-        }
-
-        $container = $this->getContainer();
         switch (true)
         {
             case 'odm' === $type:
-            case $container->has('fidry_alice_data_fixtures.loader.doctrine_mongodb') && null === $type:
-                $loader = $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine_mongodb');
-                break;
+            case $this->getContainer()->has('fidry_alice_data_fixtures.loader.doctrine_mongodb') && null === $type:
+                return $this->loadOdm($files, $objectManagerName);
             case 'orm' === $type:
-            case $container->has('fidry_alice_data_fixtures.loader.doctrine') && null === $type:
-                $loader = $this->getContainer()->get('fidry_alice_data_fixtures.loader.doctrine');
-                break;
+            case $this->getContainer()->has('fidry_alice_data_fixtures.loader.doctrine') && null === $type:
+                return $this->loadOrm($files, $objectManagerName);
             default:
                 throw new \Exception('Imposible situation, please check your doctrine configuration');
         }
-
-        return $loader->load($fixtureFiles);
     }
 
     /**

@@ -209,10 +209,8 @@ class ApiTester
         $this->path = $path;
         $this->data = $data;
 
-        $this
-            ->setRequestContentType();
+        $this->setRequestContentType();
         $this->client->request($method, $path, $this->getRequestParameters(), $this->files, $this->requestHeaders, $this->getRequestContent());
-
         $this->response = $this->client->getResponse();
 
         return new $this->responseClass($this->assertResponse()->response);
