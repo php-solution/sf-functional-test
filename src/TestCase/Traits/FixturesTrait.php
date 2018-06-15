@@ -87,5 +87,5 @@ trait FixturesTrait
     /**
      * @return ContainerInterface
      */
-    abstract function getContainer(): ContainerInterface;
+    abstract protected function getContainer(): ContainerInterface;
 }
