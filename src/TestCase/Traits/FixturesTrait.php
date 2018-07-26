@@ -61,9 +61,9 @@ trait FixturesTrait
      * @param string $path
      * @param bool   $assoc
      *
-     * @return array
+     * @return array|\stdClass
      */
-    protected function getFixturesFromJson(string $path, bool $assoc = true): array
+    protected function getFixturesFromJson(string $path, bool $assoc = true)
     {
         return json_decode(file_get_contents($this->doLocateFile($path)), $assoc);
     }
