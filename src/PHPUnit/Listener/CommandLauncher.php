@@ -33,8 +33,16 @@ class CommandLauncher implements TestListener
      * @param string $command
      * @param array  $parameters
      */
-    public function __construct($command, array $parameters = [])
+    public function __construct()
     {
+        $argv = func_get_args();
+        if (\count($argv) == 2) {
+            [$parameters, $command] = $argv;
+        } else {
+            $command = $argv[0];
+            $parameters = [];
+        }
+
         $this->command = $command;
         $this->parameters = $parameters;
     }
