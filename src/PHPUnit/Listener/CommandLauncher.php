@@ -37,7 +37,7 @@ class CommandLauncher implements TestListener
     {
         $argv = func_get_args();
         if (\count($argv) == 2) {
-            [$parameters, $command] = $argv;
+            [$command, $parameters] = $argv;
         } else {
             $command = $argv[0];
             $parameters = [];
