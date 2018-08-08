@@ -47,12 +47,12 @@ Add to your phpunit.xml Listener:
 ````
 <listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\CommandLauncher">
     <arguments>
-        <string>doctrine:mongodb:schema:drop</string>
         <array>
             <element key="0">
                 <string>--collection</string>
             </element>
         </array>
+        <string>doctrine:mongodb:schema:drop</string>
     </arguments>
 </listener>
 ````
