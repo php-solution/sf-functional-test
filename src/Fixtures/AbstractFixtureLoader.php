@@ -54,6 +54,7 @@ abstract class AbstractFixtureLoader implements FixtureLoaderInterface
             $persister->persist($fixture);
         }
         $persister->flush();
+        $om->clear();
 
         return $fixtures;
     }
