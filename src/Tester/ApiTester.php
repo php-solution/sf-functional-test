@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ApiTester
 {
+    use ObjectManagerTrait;
+
     /**
      * @var Client
      */
@@ -66,6 +68,7 @@ class ApiTester
         $this->client = $client;
         $this->responseClass = $responseClass;
         $this->requestHeaders = [];
+        $this->guessObjectManagers();
     }
 
     /**
@@ -212,6 +215,7 @@ class ApiTester
         $this->setRequestContentType();
         $this->client->request($method, $path, $this->getRequestParameters(), $this->files, $this->requestHeaders, $this->getRequestContent());
         $this->response = $this->client->getResponse();
+        $this->clearObjectManagers();
 
         return new $this->responseClass($this->assertResponse()->response);
     }
