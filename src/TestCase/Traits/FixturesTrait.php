@@ -39,8 +39,6 @@ trait FixturesTrait
      * @param string|null $objectManagerName
      *
      * @return mixed
-     *
-     * @throws \Exception
      */
     protected function load(array $files, string $type = null, string $objectManagerName = null)
     {
@@ -53,7 +51,7 @@ trait FixturesTrait
             case $this->getContainer()->has('fidry_alice_data_fixtures.loader.doctrine') && null === $type:
                 return $this->loadOrm($files, $objectManagerName);
             default:
-                throw new \Exception('Imposible situation, please check your doctrine configuration');
+                throw new \RuntimeException('Imposible situation, please check your doctrine configuration');
         }
     }
 
