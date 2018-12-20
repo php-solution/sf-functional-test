@@ -13,6 +13,8 @@ class ApiTestCase extends AppTestCase
     use ResponseAsserter;
 
     /**
+     * @param string $class
+     *
      * @return ApiTester
      */
     protected static function createTester(string $class = ApiTester::class): ApiTester

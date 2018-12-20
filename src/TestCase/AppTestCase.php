@@ -55,7 +55,7 @@ abstract class AppTestCase extends WebTestCase
     /**
      * @return ContainerInterface
      */
-    protected function getContainer(): ContainerInterface
+    protected static function getContainer(): ContainerInterface
     {
         static::bootKernel();
 
@@ -68,8 +68,8 @@ abstract class AppTestCase extends WebTestCase
      *
      * @return string
      */
-    protected function generateUrl(string $name, array $parameters = []): string
+    protected static function generateUrl(string $name, array $parameters = []): string
     {
-        return $this->getContainer()->get('router')->generate($name, $parameters);
+        return self::getContainer()->get('router')->generate($name, $parameters);
     }
 }

@@ -17,9 +17,9 @@ trait FixturesTrait
      *
      * @return array
      */
-    protected function loadOrm(array $files, string $entityManagerName = null)
+    protected static function loadOrm(array $files, string $entityManagerName = null)
     {
-        return (new OrmFixtureLoader($this->getContainer()))->load($files, $entityManagerName);
+        return (new OrmFixtureLoader(self::getContainer()))->load($files, $entityManagerName);
     }
 
     /**
@@ -28,9 +28,9 @@ trait FixturesTrait
      *
      * @return array
      */
-    protected function loadOdm(array $files, string $documentManagerName = null)
+    protected static function loadOdm(array $files, string $documentManagerName = null)
     {
-        return (new OdmFixtureLoader($this->getContainer()))->load($files, $documentManagerName);
+        return (new OdmFixtureLoader(self::getContainer()))->load($files, $documentManagerName);
     }
 
     /**
@@ -40,16 +40,16 @@ trait FixturesTrait
      *
      * @return mixed
      */
-    protected function load(array $files, string $type = null, string $objectManagerName = null)
+    protected static function load(array $files, string $type = null, string $objectManagerName = null)
     {
         switch (true)
         {
             case 'odm' === $type:
-            case $this->getContainer()->has('fidry_alice_data_fixtures.loader.doctrine_mongodb') && null === $type:
-                return $this->loadOdm($files, $objectManagerName);
+            case self::getContainer()->has('fidry_alice_data_fixtures.loader.doctrine_mongodb') && null === $type:
+                return self::loadOdm($files, $objectManagerName);
             case 'orm' === $type:
-            case $this->getContainer()->has('fidry_alice_data_fixtures.loader.doctrine') && null === $type:
-                return $this->loadOrm($files, $objectManagerName);
+            case self::getContainer()->has('fidry_alice_data_fixtures.loader.doctrine') && null === $type:
+                return self::loadOrm($files, $objectManagerName);
             default:
                 throw new \RuntimeException('Imposible situation, please check your doctrine configuration');
         }
@@ -61,9 +61,9 @@ trait FixturesTrait
      *
      * @return array|\stdClass
      */
-    protected function getFixturesFromJson(string $path, bool $assoc = true)
+    protected static function getFixturesFromJson(string $path, bool $assoc = true)
     {
-        return json_decode(file_get_contents($this->doLocateFile($path)), $assoc);
+        return json_decode(file_get_contents(self::doLocateFile($path)), $assoc);
     }
 
     /**
@@ -71,7 +71,7 @@ trait FixturesTrait
      *
      * @return string
      */
-    private function doLocateFile(string $path): string
+    private static function doLocateFile(string $path): string
     {
         $path = sprintf('%s/%s', 'tests/DataFixtures', $path);
         $realPath = realpath($path);
@@ -86,5 +86,5 @@ trait FixturesTrait
     /**
      * @return ContainerInterface
      */
-    abstract protected function getContainer(): ContainerInterface;
+    abstract protected static function getContainer(): ContainerInterface;
 }
