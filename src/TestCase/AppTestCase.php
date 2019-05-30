@@ -72,4 +72,21 @@ abstract class AppTestCase extends WebTestCase
     {
         return self::getContainer()->get('router')->generate($name, $parameters);
     }
+
+    /**
+     * @param array $subset
+     * @param array $set
+     */
+    public static function assertSubset(array $subset, array $set): void
+    {
+        foreach ($subset as $key => $value) {
+            self::assertArrayHasKey($key, $set);
+            if (is_array($value)) {
+                self::assertIsArray($set[$key]);
+                self::assertSubset($value, $set[$key]);
+            } else {
+                self::assertEquals($value, $set[$key]);
+            }
+        }
+    }
 }
