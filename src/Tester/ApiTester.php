@@ -4,7 +4,7 @@ namespace PhpSolution\FunctionalTest\Tester;
 
 use PhpSolution\FunctionalTest\Response\ResponseWrapper;
 use PHPUnit\Framework\Assert;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -62,6 +62,7 @@ class ApiTester
 
     /**
      * @param Client $client
+     * @param string $responseClass
      */
     public function __construct(Client $client, string $responseClass = ResponseWrapper::class)
     {
