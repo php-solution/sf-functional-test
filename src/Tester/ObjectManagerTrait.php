@@ -59,7 +59,7 @@ trait ObjectManagerTrait
     private function guessObjectManagers(): void
     {
         $possibleServices = [
-            'doctrine.orm.defailt_entity_manager',
+            'doctrine.orm.default_entity_manager',
             'doctrine_mongodb.odm.document_manager',
         ];
         foreach ($possibleServices as $possibleService) {
