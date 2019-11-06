@@ -11,8 +11,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 abstract class AppTestCase extends WebTestCase
 {
-    const DEFAULT_KERNEL_OPTS = ['environment' => 'test', 'debug' => false];
-
     /**
      * @var bool
      */
@@ -33,7 +31,7 @@ abstract class AppTestCase extends WebTestCase
      *
      * @return KernelInterface
      */
-    protected static function bootKernel(array $options = self::DEFAULT_KERNEL_OPTS): KernelInterface
+    protected static function bootKernel(array $options = []): KernelInterface
     {
         if (false === static::$kernelBooted) {
             static::$kernelBooted = true;
