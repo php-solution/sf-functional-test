@@ -19,6 +19,12 @@ class ApiTestCase extends AppTestCase
      */
     protected static function createTester(string $class = ApiTester::class): ApiTester
     {
+        if (static::$booted) {
+            $client = static::$kernel->getContainer()->get('test.client');
+
+            return new $class($client);
+        }
+
         return new $class(static::createClient());
     }
 }
