@@ -3,14 +3,18 @@
 namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
 
 use PhpSolution\FunctionalTest\TestCase\ConsoleTestCase;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\TestHook;
 
 /**
  * CommandLauncher
  */
-class CommandLauncher implements TestHook
+class CommandLauncher implements TestHook, TestListener
 {
+    use TestListenerDefaultImplementation;
+
     /**
      * @var bool
      */

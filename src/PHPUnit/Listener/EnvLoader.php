@@ -2,6 +2,8 @@
 
 namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
 
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Runner\TestHook;
 use Symfony\Component\Dotenv\Dotenv;
 use PHPUnit\Framework\TestSuite;
@@ -9,8 +11,10 @@ use PHPUnit\Framework\TestSuite;
 /**
  * EnvLoader
  */
-class EnvLoader implements TestHook
+class EnvLoader implements TestHook, TestListener
 {
+    use TestListenerDefaultImplementation;
+
     /**
      * @var bool
      */
