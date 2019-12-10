@@ -4,7 +4,8 @@ namespace PhpSolution\FunctionalTest\Tester;
 
 use PhpSolution\FunctionalTest\Response\ResponseWrapper;
 use PHPUnit\Framework\Assert;
-use Symfony\Component\BrowserKit\Client;
+use Symfony\Component\BrowserKit\HttpBrowser;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -14,11 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiTester
 {
     use ObjectManagerTrait;
-
-    /**
-     * @var Client
-     */
-    protected $client;
 
     /**
      * @var int
@@ -59,16 +55,25 @@ class ApiTester
      * @var string
      */
     protected $responseClass;
+    /**
+     * @var HttpBrowser
+     */
+    protected $browser;
 
     /**
-     * @param Client $client
+     * @param HttpBrowser $browser
+     * @param ContainerInterface $container
      * @param string $responseClass
      */
-    public function __construct(Client $client, string $responseClass = ResponseWrapper::class)
-    {
-        $this->client = $client;
+    public function __construct(
+        HttpBrowser $browser,
+        ContainerInterface $container,
+        string $responseClass = ResponseWrapper::class
+    ) {
+        $this->browser = $browser;
         $this->responseClass = $responseClass;
         $this->requestHeaders = [];
+        $this->container = $container;
         $this->guessObjectManagers();
     }
 
@@ -103,8 +108,11 @@ class ApiTester
      *
      * @return self
      */
-    public function authorize(string $token, string $header = 'Bearer %s', string $headerKey = 'HTTP_AUTHORIZATION'): ApiTester
-    {
+    public function authorize(
+        string $token,
+        string $header = 'Bearer %s',
+        string $headerKey = 'HTTP_AUTHORIZATION'
+    ): ApiTester {
         $this->requestHeaders[$headerKey] = sprintf($header, $token);
 
         return $this;
@@ -141,14 +149,18 @@ class ApiTester
      */
     protected function assertResponse(): ApiTester
     {
-        Assert::assertEquals($this->expectedStatusCode, $this->response->getStatusCode(), $this->response->getContent());
+        Assert::assertEquals(
+            $this->expectedStatusCode,
+            $this->response->getStatusCode(),
+            $this->response->getContent()
+        );
 
         return $this;
     }
 
     /**
      * @param string $path
-     * @param array  $data
+     * @param array $data
      *
      * @return ResponseWrapper
      */
@@ -159,7 +171,7 @@ class ApiTester
 
     /**
      * @param string $path
-     * @param array  $data
+     * @param array $data
      *
      * @return ResponseWrapper
      */
@@ -170,7 +182,7 @@ class ApiTester
 
     /**
      * @param string $path
-     * @param array  $data
+     * @param array $data
      *
      * @return ResponseWrapper
      */
@@ -191,7 +203,7 @@ class ApiTester
 
     /**
      * @param string $path
-     * @param array  $data
+     * @param array $data
      *
      * @return ResponseWrapper
      */
@@ -203,7 +215,7 @@ class ApiTester
     /**
      * @param string $path
      * @param string $method
-     * @param array  $data
+     * @param array $data
      *
      * @return ResponseWrapper
      */
@@ -214,8 +226,15 @@ class ApiTester
         $this->data = $data;
 
         $this->setRequestContentType();
-        $this->client->request($method, $path, $this->getRequestParameters(), $this->files, $this->requestHeaders, $this->getRequestContent());
-        $this->response = $this->client->getResponse();
+        $this->browser->request(
+            $method,
+            $path,
+            $this->getRequestParameters(),
+            $this->files,
+            $this->requestHeaders,
+            $this->getRequestContent()
+        );
+        $this->response = $this->browser->getResponse();
         $this->clearObjectManagers();
 
         return new $this->responseClass($this->assertResponse()->response);

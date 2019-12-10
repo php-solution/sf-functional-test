@@ -139,7 +139,7 @@ trait ResponseAsserter
      */
     public function assertResponsePropertyIsArray(Response $response, $propertyPath)
     {
-        static::assertInternalType('array', $this->readResponseProperty($response, $propertyPath));
+        static::assertIsArray($this->readResponseProperty($response, $propertyPath));
     }
 
     /**

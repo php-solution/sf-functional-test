@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace PhpSolution\FunctionalTest\Tester;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use InvalidArgumentException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
@@ -15,6 +17,11 @@ trait ObjectManagerTrait
      * @var ObjectManager[]
      */
     private $objectManagers = [];
+
+    /**
+     * @var ContainerInterface;
+     */
+    protected $container;
 
     /**
      * @return ObjectManager[]
@@ -29,14 +36,16 @@ trait ObjectManagerTrait
      *
      * @return static
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      * @throws ServiceNotFoundException
      */
     public function addObjectManager(string $objectManagerName): self
     {
-        $om = $this->client->getContainer()->get($objectManagerName);
+        $om = $this->container->get($objectManagerName);
         if (!$om instanceof ObjectManager) {
-            throw new \InvalidArgumentException(sprintf('Instance of ObjectManager expected, but got "%s"', get_class($om)));
+            throw new InvalidArgumentException(
+                sprintf('Instance of ObjectManager expected, but got "%s"', get_class($om))
+            );
         }
         $this->objectManagers[] = $om;
 
@@ -65,7 +74,7 @@ trait ObjectManagerTrait
         foreach ($possibleServices as $possibleService) {
             try {
                 $this->addObjectManager($possibleService);
-            } catch (ServiceNotFoundException|\InvalidArgumentException $ex) {
+            } catch (ServiceNotFoundException|InvalidArgumentException $ex) {
             }
         }
     }
