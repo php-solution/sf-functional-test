@@ -2,18 +2,33 @@
 
 namespace PhpSolution\FunctionalTest\Command;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 /**
  * FixturesLoadTruncateCommand
  */
-class FixturesLoadTruncateCommand extends ContainerAwareCommand
+class FixturesLoadTruncateCommand extends Command
 {
     const NAME = 'functional-test:fixtures:load';
+    /**
+     * @var ManagerRegistry
+     */
+    private $managerRegistry;
+
+    /**
+     * FixturesLoadTruncateCommand constructor.
+     * @param ManagerRegistry $managerRegistry
+     */
+    public function __construct(ManagerRegistry $managerRegistry)
+    {
+        parent::__construct(self::NAME);
+        $this->managerRegistry = $managerRegistry;
+    }
 
     /**
      * Configure
@@ -34,7 +49,7 @@ class FixturesLoadTruncateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $connection = $this->getContainer()->get('doctrine')->getConnection($input->getOption('connection'));
+        $connection = $this->managerRegistry->getConnection($input->getOption('connection'));
         $connection->prepare('SET FOREIGN_KEY_CHECKS=0')->execute();
 
         $command = $this->getApplication()->find('doctrine:fixtures:load');
