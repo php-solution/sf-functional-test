@@ -56,7 +56,7 @@ class ApiTester
      */
     protected $responseClass;
     /**
-     * @var HttpBrowser
+     * @var KernelBrowser
      */
     protected $browser;
 
