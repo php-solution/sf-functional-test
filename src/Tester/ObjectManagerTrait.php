@@ -35,7 +35,7 @@ trait ObjectManagerTrait
      */
     public function addObjectManager(string $objectManagerName): self
     {
-        $om = $this->browser->container->get($objectManagerName);
+        $om = $this->browser->getContainer()->get($objectManagerName);
         if (!$om instanceof ObjectManager) {
             throw new InvalidArgumentException(
                 sprintf('Instance of ObjectManager expected, but got "%s"', get_class($om))
