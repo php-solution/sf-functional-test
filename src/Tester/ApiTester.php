@@ -4,8 +4,8 @@ namespace PhpSolution\FunctionalTest\Tester;
 
 use PhpSolution\FunctionalTest\Response\ResponseWrapper;
 use PHPUnit\Framework\Assert;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\BrowserKit\HttpBrowser;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -56,24 +56,21 @@ class ApiTester
      */
     protected $responseClass;
     /**
-     * @var HttpBrowser
+     * @var KernelBrowser
      */
     protected $browser;
 
     /**
-     * @param HttpBrowser $browser
-     * @param ContainerInterface $container
+     * @param KernelBrowser $browser
      * @param string $responseClass
      */
     public function __construct(
-        HttpBrowser $browser,
-        ContainerInterface $container,
+        KernelBrowser $browser,
         string $responseClass = ResponseWrapper::class
     ) {
         $this->browser = $browser;
         $this->responseClass = $responseClass;
         $this->requestHeaders = [];
-        $this->container = $container;
         $this->guessObjectManagers();
     }
 

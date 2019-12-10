@@ -5,7 +5,6 @@ namespace PhpSolution\FunctionalTest\Tester;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use InvalidArgumentException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
@@ -17,11 +16,6 @@ trait ObjectManagerTrait
      * @var ObjectManager[]
      */
     private $objectManagers = [];
-
-    /**
-     * @var ContainerInterface;
-     */
-    protected $container;
 
     /**
      * @return ObjectManager[]
@@ -41,7 +35,7 @@ trait ObjectManagerTrait
      */
     public function addObjectManager(string $objectManagerName): self
     {
-        $om = $this->container->get($objectManagerName);
+        $om = $this->browser->getContainer()->get($objectManagerName);
         if (!$om instanceof ObjectManager) {
             throw new InvalidArgumentException(
                 sprintf('Instance of ObjectManager expected, but got "%s"', get_class($om))

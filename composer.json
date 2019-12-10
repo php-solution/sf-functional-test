@@ -40,7 +40,8 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "1.x-dev"
+            "dev-v4": "v4.x-dev",
+            "dev-master": "v1.x-dev"
         }
     },
     "scripts": {
