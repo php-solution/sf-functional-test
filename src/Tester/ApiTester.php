@@ -190,12 +190,13 @@ class ApiTester
 
     /**
      * @param string $path
+     * @param array $data
      *
      * @return ResponseWrapper
      */
-    public function sendDelete(string $path): ResponseWrapper
+    public function sendDelete(string $path, array $data = []): ResponseWrapper
     {
-        return $this->sendRequest(Request::METHOD_DELETE, $path, []);
+        return $this->sendRequest(Request::METHOD_DELETE, $path, $data);
     }
 
     /**
