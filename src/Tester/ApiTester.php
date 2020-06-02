@@ -98,19 +98,17 @@ class ApiTester
         return $this;
     }
 
-    /**
-     * @param string $token
-     * @param string $header
-     * @param string $headerKey
-     *
-     * @return self
-     */
     public function authorize(
         string $token,
         string $header = 'Bearer %s',
         string $headerKey = 'HTTP_AUTHORIZATION'
-    ): ApiTester {
-        $this->requestHeaders[$headerKey] = sprintf($header, $token);
+    ): self {
+        return $this->withHeader($headerKey, sprintf($header, $token));
+    }
+
+    public function withHeader(string $name, string $value): self
+    {
+        $this->requestHeaders[$name] = $value;
 
         return $this;
     }
