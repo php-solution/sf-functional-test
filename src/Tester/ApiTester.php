@@ -136,7 +136,7 @@ class ApiTester
      */
     protected function getRequestContent(): ?string
     {
-        return Request::METHOD_GET === $this->method ? null : json_encode($this->data);
+        return Request::METHOD_GET === $this->method ? null : json_encode($this->data, JSON_PRESERVE_ZERO_FRACTION);
     }
 
     /**
