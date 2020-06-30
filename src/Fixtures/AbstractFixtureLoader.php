@@ -6,6 +6,7 @@ namespace PhpSolution\FunctionalTest\Fixtures;
 use Fidry\AliceDataFixtures\Bridge\Doctrine\Persister\ObjectManagerPersister;
 use Fidry\AliceDataFixtures\Bridge\Doctrine\Purger\Purger;
 use Fidry\AliceDataFixtures\Persistence\PurgeMode;
+use PhpSolution\FunctionalTest\Fixtures\Loader\CustomNativeLoader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -38,9 +39,8 @@ abstract class AbstractFixtureLoader implements FixtureLoaderInterface
         foreach ($files as $file) {
             $fixtureFiles[] = $this->locateFile($file);
         }
-        $fixtures = $this
-            ->container
-            ->get('nelmio_alice.files_loader')
+
+        $fixtures = (new CustomNativeLoader())
             ->loadFiles($fixtureFiles)
             ->getObjects();
 
