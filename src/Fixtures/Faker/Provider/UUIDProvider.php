@@ -9,8 +9,8 @@ use Ramsey\Uuid\UuidInterface;
 
 final class UUIDProvider
 {
-    public function uuid4(): UuidInterface
+    public function uuid4(string $uuid = null): UuidInterface
     {
-        return Uuid::uuid4();
+        return $uuid ? Uuid::fromString($uuid) : Uuid::uuid4();
     }
 }
