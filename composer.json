@@ -15,7 +15,7 @@
         "doctrine/data-fixtures": "^1.2",
         "justinrainbow/json-schema": "^5.2",
         "nelmio/alice": "^3.0",
-        "phpunit/phpunit": "^7.0|^8.0",
+        "phpunit/phpunit": "^7.0|^8.0|^9.0",
         "ramsey/uuid": ">=3.9",
         "symfony/console": "^4.0|^5.0",
         "symfony/framework-bundle": "^4.0|^5.0",
