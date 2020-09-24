@@ -2,15 +2,15 @@
 
 namespace PhpSolution\FunctionalTest\TestCase;
 
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-/**
- * AppTestCase
- */
 abstract class AppTestCase extends WebTestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var bool
      */
