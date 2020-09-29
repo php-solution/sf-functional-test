@@ -13,4 +13,11 @@ final class UUIDProvider
     {
         return $uuid ? Uuid::fromString($uuid) : Uuid::uuid4();
     }
+
+    public function randomUuid4(array $array): ?UuidInterface
+    {
+        $uuid = $array[mt_rand(0, count($array) - 1)];
+
+        return $uuid ? Uuid::fromString($uuid) : null;
+    }
 }
