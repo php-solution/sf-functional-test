@@ -1,21 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\Common\Persistence\AbstractManagerRegistry;
+use Doctrine\Persistence\AbstractManagerRegistry;
 
-/**
- * DocumentTrait
- */
 trait DocumentTrait
 {
-    /**
-     * @return AbstractManagerRegistry|object
-     */
-    protected function getDoctrine(): AbstractManagerRegistry
+    protected static function getDoctrine(): AbstractManagerRegistry
     {
-        return $this->getContainer()->get('doctrine_mongodb');
+        return self::getContainer()->get('doctrine_mongodb');
     }
 
     /**
@@ -26,9 +21,9 @@ trait DocumentTrait
      *
      * @return object|null
      */
-    protected function findDocument(string $documentClass, array $criteria = [])
+    protected static function findDocument(string $documentClass, array $criteria = [])
     {
-        $repository = $this->getDoctrine()->getRepository($documentClass);
+        $repository = self::getDoctrine()->getRepository($documentClass);
 
         return $repository->findOneBy($criteria);
     }
@@ -42,9 +37,9 @@ trait DocumentTrait
      *
      * @return array
      */
-    protected function findDocuments(string $documentClass, array $criteria = [], array $orderBy = [])
+    protected static function findDocuments(string $documentClass, array $criteria = [], array $orderBy = [])
     {
-        $repository = $this->getDoctrine()->getRepository($documentClass);
+        $repository = self::getDoctrine()->getRepository($documentClass);
 
         return $repository->findBy($criteria, $orderBy);
     }
@@ -54,16 +49,14 @@ trait DocumentTrait
      *
      * @return object
      */
-    protected function refreshDocument($document)
+    protected static function refreshDocument(object $document): object
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = self::getDoctrine()->getManager();
         $em->refresh($document);
 
         return $document;
     }
 
-    /**
-     * @return ContainerInterface
-     */
-    abstract protected function getContainer(): ContainerInterface;
+// Uncomment when php 8.0 will be enabled
+//    abstract protected static function getContainer(): ContainerInterface;
 }

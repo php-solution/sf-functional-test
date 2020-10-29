@@ -1,34 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
 use PhpSolution\FunctionalTest\Fixtures\OdmFixtureLoader;
 use PhpSolution\FunctionalTest\Fixtures\OrmFixtureLoader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * FixturesTrait
- */
 trait FixturesTrait
 {
-    /**
-     * @param array       $files
-     * @param null|string $entityManagerName
-     *
-     * @return array
-     */
-    protected static function loadOrm(array $files, string $entityManagerName = null)
+    protected static function loadOrm(array $files, string $entityManagerName = null): array
     {
         return (new OrmFixtureLoader(self::getContainer()))->load($files, $entityManagerName);
     }
 
-    /**
-     * @param array       $files
-     * @param null|string $documentManagerName
-     *
-     * @return array
-     */
-    protected static function loadOdm(array $files, string $documentManagerName = null)
+    protected static function loadOdm(array $files, string $documentManagerName = null): array
     {
         return (new OdmFixtureLoader(self::getContainer()))->load($files, $documentManagerName);
     }
@@ -83,8 +70,6 @@ trait FixturesTrait
         return $realPath;
     }
 
-    /**
-     * @return ContainerInterface
-     */
-    abstract protected static function getContainer(): ContainerInterface;
+// Uncomment when php 8.0 will be enabled
+//    abstract protected static function getContainer(): ContainerInterface;
 }

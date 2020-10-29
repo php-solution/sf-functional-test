@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace PhpSolution\FunctionalTest\Fixtures;
@@ -9,30 +10,15 @@ use Fidry\AliceDataFixtures\Persistence\PurgeMode;
 use PhpSolution\FunctionalTest\Fixtures\Loader\CustomNativeLoader;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * AbstractFixtureLoader
- */
 abstract class AbstractFixtureLoader implements FixtureLoaderInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
 
-    /**
-     * @param ContainerInterface $container
-     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
 
-    /**
-     * @param array       $files
-     * @param string|null $objectManagerName
-     *
-     * @return array
-     */
     public function load(array $files, string $objectManagerName = null): array
     {
         $fixtureFiles = [];
@@ -59,11 +45,6 @@ abstract class AbstractFixtureLoader implements FixtureLoaderInterface
         return $fixtures;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return string
-     */
     protected function locateFile(string $path): string
     {
         $path = sprintf('%s/%s', 'tests/DataFixtures', $path);

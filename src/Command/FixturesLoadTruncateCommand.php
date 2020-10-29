@@ -1,39 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\Command;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 
-/**
- * FixturesLoadTruncateCommand
- */
 class FixturesLoadTruncateCommand extends Command
 {
-    const NAME = 'functional-test:fixtures:load';
-    /**
-     * @var ManagerRegistry
-     */
-    private $managerRegistry;
+    private const NAME = 'functional-test:fixtures:load';
 
-    /**
-     * FixturesLoadTruncateCommand constructor.
-     * @param ManagerRegistry $managerRegistry
-     */
+    private ManagerRegistry $managerRegistry;
+
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct(self::NAME);
         $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * Configure
-     */
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName(self::NAME)
@@ -41,13 +31,7 @@ class FixturesLoadTruncateCommand extends Command
             ->addOption('connection', null, InputOption::VALUE_OPTIONAL);
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return void
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $connection = $this->managerRegistry->getConnection($input->getOption('connection'));
         $connection->prepare('SET FOREIGN_KEY_CHECKS=0')->execute();

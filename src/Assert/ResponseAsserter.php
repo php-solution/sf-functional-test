@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\Assert;
 
 use JsonSchema\Constraints\Constraint;
@@ -15,10 +17,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  */
 trait ResponseAsserter
 {
-    /**
-     * @var PropertyAccessor
-     */
-    private $accessor;
+    private PropertyAccessor $accessor;
 
     /**
      * Asserts the response matches json schema
@@ -97,7 +96,7 @@ trait ResponseAsserter
      * @param Response $response
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
      */
-    public function assertResponsePropertyDoesNotExist(Response $response, $propertyPath)
+    public function assertResponsePropertyDoesNotExist(Response $response, string $propertyPath)
     {
         try {
             // this will blow up if the property doesn't exist
@@ -116,7 +115,7 @@ trait ResponseAsserter
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
      * @param mixed    $expectedValue
      */
-    public function assertResponsePropertyEquals(Response $response, $propertyPath, $expectedValue)
+    public function assertResponsePropertyEquals(Response $response, string $propertyPath, $expectedValue)
     {
         $actual = $this->readResponseProperty($response, $propertyPath);
         static::assertEquals(
@@ -137,7 +136,7 @@ trait ResponseAsserter
      * @param Response $response
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
      */
-    public function assertResponsePropertyIsArray(Response $response, $propertyPath)
+    public function assertResponsePropertyIsArray(Response $response, string $propertyPath)
     {
         static::assertIsArray($this->readResponseProperty($response, $propertyPath));
     }
@@ -149,7 +148,7 @@ trait ResponseAsserter
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
      * @param integer  $expectedCount
      */
-    public function assertResponsePropertyCount(Response $response, $propertyPath, $expectedCount)
+    public function assertResponsePropertyCount(Response $response, string $propertyPath, $expectedCount)
     {
         static::assertCount((int) $expectedCount, $this->readResponseProperty($response, $propertyPath));
     }
@@ -163,7 +162,7 @@ trait ResponseAsserter
      * @param string   $propertyPath e.g. firstName, battles[0].programmer.username
      * @param mixed    $expectedValue
      */
-    public function assertResponsePropertyContains(Response $response, $propertyPath, $expectedValue)
+    public function assertResponsePropertyContains(Response $response, string $propertyPath, $expectedValue)
     {
         $actualPropertyValue = $this->readResponseProperty($response, $propertyPath);
         static::assertContains(
@@ -188,7 +187,7 @@ trait ResponseAsserter
      *
      * @return mixed
      */
-    public function readResponseProperty(Response $response, $propertyPath)
+    public function readResponseProperty(Response $response, string $propertyPath)
     {
         if ($this->accessor === null) {
             $this->accessor = PropertyAccess::createPropertyAccessor();

@@ -1,21 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\Common\Persistence\AbstractManagerRegistry;
+use Doctrine\Persistence\AbstractManagerRegistry;
 
-/**
- * EntityTrait
- */
 trait EntityTrait
 {
     /**
      * @return AbstractManagerRegistry|object
      */
-    protected function getDoctrine(): AbstractManagerRegistry
+    protected static function getDoctrine(): AbstractManagerRegistry
     {
-        return $this->getContainer()->get('doctrine');
+        return self::getContainer()->get('doctrine');
     }
 
     /**
@@ -27,9 +25,9 @@ trait EntityTrait
      *
      * @return object|null
      */
-    protected function findEntity(string $entityClass, array $findBy = [], array $orderBy = [])
+    protected static function findEntity(string $entityClass, array $findBy = [], array $orderBy = [])
     {
-        $repository = $this->getDoctrine()->getRepository($entityClass);
+        $repository = self::getDoctrine()->getRepository($entityClass);
         $result = $repository->findBy($findBy, $orderBy, 1, 0);
 
         return count($result) > 0 ? $result[0] : null;
@@ -40,16 +38,14 @@ trait EntityTrait
      *
      * @return object
      */
-    protected function refreshEntity($entity)
+    protected static function refreshEntity(object $entity): object
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = self::getDoctrine()->getManager();
         $em->refresh($entity);
 
         return $entity;
     }
 
-    /**
-     * @return ContainerInterface
-     */
-    abstract function getContainer(): ContainerInterface;
+// Uncomment when php 8.0 will be enabled
+//    abstract protected static function getContainer(): ContainerInterface;
 }

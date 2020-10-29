@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\TestCase;
 
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -11,14 +13,8 @@ abstract class AppTestCase extends WebTestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var bool
-     */
-    protected static $kernelBooted = false;
+    protected static bool $kernelBooted = false;
 
-    /**
-     * @inheritdoc
-     */
     protected function tearDown(): void
     {
         static::$kernelBooted = false;
@@ -26,11 +22,6 @@ abstract class AppTestCase extends WebTestCase
         parent::tearDown();
     }
 
-    /**
-     * @param array $options
-     *
-     * @return KernelInterface
-     */
     protected static function bootKernel(array $options = []): KernelInterface
     {
         if (false === static::$kernelBooted) {
@@ -42,17 +33,11 @@ abstract class AppTestCase extends WebTestCase
         return static::$kernel;
     }
 
-    /**
-     * @return string
-     */
     protected static function getKernelClass(): string
     {
         return array_key_exists('KERNEL_CLASS', $_SERVER) ? $_SERVER['KERNEL_CLASS'] : parent::getKernelClass();
     }
 
-    /**
-     * @return ContainerInterface
-     */
     protected static function getContainer(): ContainerInterface
     {
         static::bootKernel();
@@ -60,21 +45,11 @@ abstract class AppTestCase extends WebTestCase
         return static::$kernel->getContainer();
     }
 
-    /**
-     * @param string $name
-     * @param array  $parameters
-     *
-     * @return string
-     */
     protected static function generateUrl(string $name, array $parameters = []): string
     {
         return self::getContainer()->get('router')->generate($name, $parameters);
     }
 
-    /**
-     * @param array $subset
-     * @param array $set
-     */
     public static function assertSubset(array $subset, array $set): void
     {
         foreach ($subset as $key => $value) {

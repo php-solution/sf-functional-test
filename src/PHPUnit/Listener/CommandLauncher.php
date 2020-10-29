@@ -1,39 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
 
 use PhpSolution\FunctionalTest\TestCase\ConsoleTestCase;
-use PHPUnit\Framework\TestListener;
-use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\TestHook;
 
-/**
- * CommandLauncher
- */
-class CommandLauncher implements TestHook, TestListener
+class CommandLauncher implements TestHook
 {
-    use TestListenerDefaultImplementation;
+    private bool $wasCalled = false;
 
-    /**
-     * @var bool
-     */
-    private $wasCalled = false;
+    private string $command;
 
-    /**
-     * @var string
-     */
-    private $command;
+    private array $parameters;
 
-    /**
-     * @var array
-     */
-    private $parameters;
-
-    /**
-     * @param string $command
-     * @param array  $parameters
-     */
     public function __construct()
     {
         $argv = func_get_args();
@@ -56,11 +38,6 @@ class CommandLauncher implements TestHook, TestListener
         $this->parameters = $parameters;
     }
 
-    /**
-     * @param TestSuite $suite
-     *
-     * @throws \Exception
-     */
     public function startTestSuite(TestSuite $suite): void
     {
         if ($this->wasCalled) {

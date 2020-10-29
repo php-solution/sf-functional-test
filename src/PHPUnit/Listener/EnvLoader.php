@@ -1,42 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
 
-use PHPUnit\Framework\TestListener;
-use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Runner\TestHook;
 use Symfony\Component\Dotenv\Dotenv;
 use PHPUnit\Framework\TestSuite;
 
-/**
- * EnvLoader
- */
-class EnvLoader implements TestHook, TestListener
+class EnvLoader implements TestHook
 {
-    use TestListenerDefaultImplementation;
+    private bool $wasCalled = false;
 
-    /**
-     * @var bool
-     */
-    private $wasCalled = false;
-    /**
-     * @var array
-     */
-    private $paths = [];
+    private array $paths = [];
 
-    /**
-     * EnvLoader constructor.
-     *
-     * @param array $paths
-     */
     public function __construct(array $paths = [])
     {
         $this->paths = $paths;
     }
 
-    /**
-     * @param TestSuite $suite
-     */
     public function startTestSuite(TestSuite $suite): void
     {
         if ($this->wasCalled) {

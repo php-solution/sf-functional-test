@@ -1,84 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\Tester;
 
 use PhpSolution\FunctionalTest\Response\ResponseWrapper;
 use PHPUnit\Framework\Assert;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * ApiTester
- */
 class ApiTester
 {
     use ObjectManagerTrait;
 
-    /**
-     * @var int
-     */
-    protected $expectedStatusCode = Response::HTTP_OK;
+    protected int $expectedStatusCode = Response::HTTP_OK;
 
-    /**
-     * @var string
-     */
-    protected $method;
+    protected string $method;
 
-    /**
-     * @var string
-     */
-    protected $path;
+    protected string $path;
 
-    /**
-     * @var array
-     */
-    protected $data;
+    protected array $data;
 
-    /**
-     * @var array
-     */
-    protected $files = [];
+    protected array $files = [];
 
-    /**
-     * @var array
-     */
-    protected $requestHeaders;
+    protected array $requestHeaders;
 
-    /**
-     * @var Response
-     */
-    protected $response;
+    protected Response $response;
 
-    /**
-     * @var string
-     */
-    protected $responseClass;
-    /**
-     * @var KernelBrowser
-     */
-    protected $browser;
+    protected string $responseClass;
 
-    /**
-     * @param KernelBrowser $browser
-     * @param string $responseClass
-     */
-    public function __construct(
-        KernelBrowser $browser,
-        string $responseClass = ResponseWrapper::class
-    ) {
+    protected KernelBrowser $browser;
+
+    public function __construct(KernelBrowser $browser, string $responseClass = ResponseWrapper::class)
+    {
         $this->browser = $browser;
         $this->responseClass = $responseClass;
         $this->requestHeaders = [];
         $this->guessObjectManagers();
     }
 
-    /**
-     * @param int $expectedStatusCode
-     *
-     * @return self
-     */
     public function setExpectedStatusCode(int $expectedStatusCode): ApiTester
     {
         $this->expectedStatusCode = $expectedStatusCode;
@@ -86,11 +47,6 @@ class ApiTester
         return $this;
     }
 
-    /**
-     * @param array $files
-     *
-     * @return self
-     */
     public function setFiles(array $files): ApiTester
     {
         $this->files = $files;
@@ -113,9 +69,6 @@ class ApiTester
         return $this;
     }
 
-    /**
-     * @return self
-     */
     protected function setRequestContentType(): ApiTester
     {
         $this->requestHeaders['CONTENT_TYPE'] = 'application/json';
@@ -123,25 +76,16 @@ class ApiTester
         return $this;
     }
 
-    /**
-     * @return array
-     */
     protected function getRequestParameters(): array
     {
         return Request::METHOD_GET === $this->method ? $this->data : [];
     }
 
-    /**
-     * @return string|null
-     */
     protected function getRequestContent(): ?string
     {
         return Request::METHOD_GET === $this->method ? null : json_encode($this->data, JSON_PRESERVE_ZERO_FRACTION);
     }
 
-    /**
-     * @return ApiTester
-     */
     protected function assertResponse(): ApiTester
     {
         Assert::assertEquals(
@@ -153,68 +97,31 @@ class ApiTester
         return $this;
     }
 
-    /**
-     * @param string $path
-     * @param array $data
-     *
-     * @return ResponseWrapper
-     */
     public function sendGet(string $path, array $data = []): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_GET, $path, $data);
     }
 
-    /**
-     * @param string $path
-     * @param array $data
-     *
-     * @return ResponseWrapper
-     */
     public function sendPost(string $path, array $data = []): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_POST, $path, $data);
     }
 
-    /**
-     * @param string $path
-     * @param array $data
-     *
-     * @return ResponseWrapper
-     */
     public function sendPut(string $path, array $data = []): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_PUT, $path, $data);
     }
 
-    /**
-     * @param string $path
-     * @param array $data
-     *
-     * @return ResponseWrapper
-     */
     public function sendDelete(string $path, array $data = []): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_DELETE, $path, $data);
     }
 
-    /**
-     * @param string $path
-     * @param array $data
-     *
-     * @return ResponseWrapper
-     */
     public function sendPatch(string $path, array $data = []): ResponseWrapper
     {
         return $this->sendRequest(Request::METHOD_PATCH, $path, $data);
     }
 
-    /**
-     * @param string $path
-     * @param string $method
-     * @param array $data
-     *
-     * @return ResponseWrapper
-     */
     public function sendRequest(string $method, string $path, array $data = []): ResponseWrapper
     {
         $this->method = $method;

@@ -1,24 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\TestCase;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-/**
- * ConsoleTestCase
- */
 class ConsoleTestCase extends AppTestCase
 {
-    /**
-     * @param string           $name
-     * @param array            $parameters
-     * @param Application|null $consoleApp
-     *
-     * @return BufferedOutput
-     * @throws \Exception
-     */
     public static function runConsoleCommand(string $name, array $parameters = [], Application $consoleApp = null): BufferedOutput
     {
         $consoleApp = is_null($consoleApp) ? self::createConsoleApp() : $consoleApp;
@@ -36,12 +27,6 @@ class ConsoleTestCase extends AppTestCase
         return $output;
     }
 
-    /**
-     * @param array $kernelOptions
-     * @param bool  $autoExit
-     *
-     * @return Application
-     */
     public static function createConsoleApp(array $kernelOptions = [], bool $autoExit = false): Application
     {
         $kernel = static::createKernel($kernelOptions);

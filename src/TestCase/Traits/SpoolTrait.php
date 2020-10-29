@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -7,15 +9,12 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-/**
- * Trait SpoolTrait
- */
 trait SpoolTrait
 {
     /**
      * We need to purge the spool between each scenario
      */
-    public function purgeSpool()
+    public function purgeSpool(): void
     {
         if (is_dir($this->getSpoolDir())) {
             $filesystem = new Filesystem();
@@ -28,10 +27,7 @@ trait SpoolTrait
         }
     }
 
-    /**
-     * @return Finder
-     */
-    public function getSpooledEmails()
+    public function getSpooledEmails(): Finder
     {
         $finder = new Finder();
         $spoolDir = $this->getSpoolDir();
@@ -40,26 +36,16 @@ trait SpoolTrait
         return $finder;
     }
 
-    /**
-     * @param $file
-     *
-     * @return string
-     */
-    public function getEmailContent($file)
+    public function getEmailContent(string $file): string
     {
         return unserialize(file_get_contents($file));
     }
 
-    /**
-     * @return string
-     */
-    protected function getSpoolDir()
+    protected function getSpoolDir(): string
     {
-        return $this->getContainer()->getParameter('swiftmailer.spool.default.file.path');
+        return self::getContainer()->getParameter('swiftmailer.spool.default.file.path');
     }
 
-    /**
-     * @return ContainerInterface
-     */
-    abstract function getContainer(): ContainerInterface;
+    // Uncomment when php 8.0 will be enabled
+//    abstract protected static function getContainer(): ContainerInterface;
 }
