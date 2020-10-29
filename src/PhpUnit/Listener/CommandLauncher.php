@@ -2,14 +2,18 @@
 
 declare(strict_types=1);
 
-namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
+namespace PhpSolution\FunctionalTest\PhpUnit\Listener;
 
 use PhpSolution\FunctionalTest\TestCase\ConsoleTestCase;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Runner\TestHook;
 
-class CommandLauncher implements TestHook
+class CommandLauncher implements TestHook, TestListener
 {
+    use TestListenerDefaultImplementation;
+
     private bool $wasCalled = false;
 
     private string $command;

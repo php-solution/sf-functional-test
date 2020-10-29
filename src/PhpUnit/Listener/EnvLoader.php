@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpSolution\FunctionalTest\PHPUnit\Listener;
+namespace PhpSolution\FunctionalTest\PhpUnit\Listener;
 
 use PHPUnit\Runner\TestHook;
 use Symfony\Component\Dotenv\Dotenv;
