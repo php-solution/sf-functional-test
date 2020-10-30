@@ -91,7 +91,7 @@ class ApiTester
         Assert::assertEquals(
             $this->expectedStatusCode,
             $this->response->getStatusCode(),
-            $this->response->getContent()
+            (string) $this->response->getContent()
         );
 
         return $this;
