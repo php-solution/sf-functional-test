@@ -59,7 +59,7 @@ trait ObjectManagerTrait
         }
     }
 
-    final private function clearObjectManagers(): void
+    private function clearObjectManagers(): void
     {
         foreach ($this->getObjectManagers() as $objectManager) {
             $objectManager->clear();
