@@ -38,6 +38,7 @@ class ApiTester
         $this->responseClass = $responseClass;
         $this->requestHeaders = [];
         $this->guessObjectManagers();
+        $this->setRequestContentType();
     }
 
     public function setExpectedStatusCode(int $expectedStatusCode): ApiTester
@@ -69,9 +70,9 @@ class ApiTester
         return $this;
     }
 
-    protected function setRequestContentType(): ApiTester
+    public function setRequestContentType(string $contentType = 'application/json'): ApiTester
     {
-        $this->requestHeaders['CONTENT_TYPE'] = 'application/json';
+        $this->requestHeaders['CONTENT_TYPE'] = $contentType;
 
         return $this;
     }
@@ -128,7 +129,6 @@ class ApiTester
         $this->path = $path;
         $this->data = $data;
 
-        $this->setRequestContentType();
         $this->browser->request(
             $method,
             $path,
