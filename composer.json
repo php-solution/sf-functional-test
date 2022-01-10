@@ -21,7 +21,6 @@
         "nelmio/alice": ">=3.0",
         "phpspec/prophecy-phpunit": ">=2.0",
         "phpunit/phpunit": ">=9.0",
-        "ramsey/uuid": ">=3.9",
         "symfony/console": ">=5.0",
         "symfony/framework-bundle": ">=5.0",
         "symfony/property-access": ">=5.0",
@@ -32,7 +31,9 @@
     "require-dev": {
         "doctrine/orm": ">=2.0",
         "doctrine/mongodb-odm": ">=2.0",
-        "symfony/dotenv": ">=5.0"
+        "symfony/dotenv": ">=5.0",
+        "ramsey/uuid": ">=3.9",
+        "symfony/uid": ">=5.0"
     },
     "suggest": {
         "symfony/dotenv": "for use Env Listener which load env vars from paths",
