@@ -33,7 +33,7 @@
         "doctrine/mongodb-odm": ">=2.0",
         "symfony/dotenv": ">=5.0",
         "ramsey/uuid": ">=3.9",
-        "symfony/uid": ">5.0"
+        "symfony/uid": ">=5.0"
     },
     "suggest": {
         "symfony/dotenv": "for use Env Listener which load env vars from paths",
