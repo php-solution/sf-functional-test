@@ -33,8 +33,6 @@ class ResponseWrapper
                 return json_decode($this->response->getContent(), true);
             default:
                 Assert::fail(sprintf('Unexpected content type: "%s"', $contentType));
-
-                return [];
         }
     }
 }

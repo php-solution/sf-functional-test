@@ -6,51 +6,33 @@
    ````
 
 ## Load environment variables from files
-Add to your phpunit.xml listener and configure arguments(relative file paths from your phpunit.xml configuration file):
+Add to your phpunit.xml extension and configure paths (comma separated relative file paths from your phpunit.xml configuration file):
 ````XML 
-<listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\EnvLoader">
-    <arguments>
-        <array>
-            <element key="0">
-                <string>../.env</string>
-            </element>
-            <element key="1">
-                <string>.env</string>
-            </element>
-        </array>
-    </arguments>
-</listener>
+<bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunEnvLoaderExtension">
+    <parameter name="paths" value='../.env,.env'/>
+</bootstrap>
 ````
 
 ## Load Doctrine fixtures before test cases 
-Add to your phpunit.xml Listener:
-````    
-<listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\CommandLauncher">
-    <arguments>
-        <string>functional-test:fixtures:load</string>
-    </arguments>
-</listener>
+Add to your phpunit.xml extension:
+````XML
+<bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunCommandLauncherExtension">
+     <parameter name="command" value='functional-test:fixtures:load'/>
+</bootstrap>
 ````
 
 ## Run Doctrine migrations before test cases 
-Add to your phpunit.xml Listener:
-````    
-<listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\CommandLauncher">
-    <arguments>
-        <string>doctrine:migrations:migrate</string>
-    </arguments>
-</listener>
+Add to your phpunit.xml extension:
+````XML
+<bootstrap class="\PhpSolution\FunctionalTest\PhpUnit\Extension\DoctrineMigrationExtension" />
 ````
 
 ## Run command with parameters
-Add to your phpunit.xml Listener:
-````
-<listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\CommandLauncher">
-    <arguments>
-        <string>doctrine:mongodb:schema:drop</string>
-        <string>--collection</string>
-    </arguments>
-</listener>
+Add to your phpunit.xml extension:
+````XML
+<bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunCommandLauncherExtension">
+    <parameter name="command" value='doctrine:mongodb:schema:drop --collection'/>
+</bootstrap>
 ````
     
 ## Using Test case additional functionallity PhpSolution\FunctionalTest\TestCase\AppTestCase   

@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace PhpSolution\FunctionalTest\PhpUnit\Extension;
 
-use PhpSolution\FunctionalTest\TestCase\ConsoleTestCase;
-use PHPUnit\Runner\BeforeFirstTestHook;
+use PhpSolution\FunctionalTest\PhpUnit\Subscriber\PreRunCommandLauncherSubscriber;
+use PHPUnit\Runner\Extension\Extension;
+use PHPUnit\Runner\Extension\Facade;
+use PHPUnit\Runner\Extension\ParameterCollection;
+use PHPUnit\TextUI\Configuration\Configuration;
 
-class DoctrineMigrationExtension implements BeforeFirstTestHook
+class DoctrineMigrationExtension implements Extension
 {
-    public function executeBeforeFirstTest(): void
+    public function bootstrap(Configuration $configuration, Facade $facade, ParameterCollection $parameters): void
     {
-        print 'DoctrineMigrationExtension:' . PHP_EOL;
-        print ConsoleTestCase::runConsoleCommand('doctrine:migration:migrate', ['--no-interaction'])->fetch();
+        $facade->registerSubscriber(new PreRunCommandLauncherSubscriber('doctrine:migration:migrate --no-interaction'));
     }
 }
