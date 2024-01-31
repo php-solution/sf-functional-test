@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class ConsoleTestCase extends AppTestCase
 {
@@ -22,14 +23,18 @@ class ConsoleTestCase extends AppTestCase
         $parameters = array_merge(['command' => $name], $parameters);
         $input = new ArrayInput($parameters);
 
-        return self::runCommand($input, $consoleApp);
+        return self::runCommand($input, null, $consoleApp);
     }
 
-    public static function runCommand(InputInterface $input, Application $consoleApp = null, bool $autoExit = false): BufferedOutput
-    {
+    public static function runCommand(
+        InputInterface $input,
+        OutputInterface $output = null,
+        Application $consoleApp = null,
+        bool $autoExit = false,
+    ): BufferedOutput {
         $consoleApp ??= self::createConsoleApp([], $autoExit);
 
-        $output = new BufferedOutput();
+        $output ??= new BufferedOutput();
         $consoleApp->run($input, $output);
 
         $consoleApp->getKernel()->shutdown();

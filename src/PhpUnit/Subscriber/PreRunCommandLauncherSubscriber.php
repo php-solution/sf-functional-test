@@ -8,6 +8,8 @@ use PhpSolution\FunctionalTest\TestCase\ConsoleTestCase;
 use PHPUnit\Event\TestRunner\Started;
 use PHPUnit\Event\TestRunner\StartedSubscriber;
 use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class PreRunCommandLauncherSubscriber implements StartedSubscriber
 {
@@ -37,12 +39,16 @@ class PreRunCommandLauncherSubscriber implements StartedSubscriber
             $input = new StringInput($newCommand);
         }
 
+        $app = ConsoleTestCase::createConsoleApp([], $this->exitOnError);
+
         echo '[PreRunCommandLauncherSubscriber] Executing: ' . $input . PHP_EOL;
 
+        $output = new BufferedOutput();
+
         try {
-            $res = ConsoleTestCase::runCommand($input, null, $this->exitOnError);
+            $res = ConsoleTestCase::runCommand($input, $output, $app, $this->exitOnError);
         } catch (\Throwable $e) {
-            var_export($e);
+            $app->renderThrowable($e, $output);
 
             if ($this->exitOnError) {
                 exit(1);
