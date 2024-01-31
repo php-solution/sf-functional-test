@@ -6,6 +6,7 @@ namespace PhpSolution\FunctionalTest\PhpUnit\Subscriber;
 
 use PHPUnit\Event\TestRunner\Started;
 use PHPUnit\Event\TestRunner\StartedSubscriber;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class PreRunNativeCommandLauncherSubscriber implements StartedSubscriber
 {
@@ -21,6 +22,9 @@ class PreRunNativeCommandLauncherSubscriber implements StartedSubscriber
 
     public function notify(Started $event): void
     {
+        $output = new ConsoleOutput();
+        $output->writeln(sprintf('<info>[PreRunNativeCommandLauncherSubscriber] Executing: %s</info>', $this->command));
+
         passthru($this->command, $code);
 
         if ($code > 0 && $this->exitOnError) {

@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace PhpSolution\FunctionalTest\PhpUnit\Subscriber;
 
+use PhpCsFixer\Console\Output\ErrorOutput;
 use PhpSolution\FunctionalTest\TestCase\ConsoleTestCase;
 use PHPUnit\Event\TestRunner\Started;
 use PHPUnit\Event\TestRunner\StartedSubscriber;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class PreRunCommandLauncherSubscriber implements StartedSubscriber
 {
@@ -25,42 +27,24 @@ class PreRunCommandLauncherSubscriber implements StartedSubscriber
 
     public function notify(Started $event): void
     {
-        $newCommand = $this->command;
-
         $input = new StringInput($this->command);
-        if (!$input->hasParameterOption(['--quiet', '-q', '-v', '-vv', '-vvv'])) {
-            $newCommand .= ' -q';
-        }
-        if (!$input->hasParameterOption(['-e', '--env'])) {
-            $newCommand .= ' --env=test';
-        }
 
-        if ($this->command !== $newCommand) {
-            $input = new StringInput($newCommand);
-        }
-
-        $app = ConsoleTestCase::createConsoleApp([], $this->exitOnError);
-
-        echo '[PreRunCommandLauncherSubscriber] Executing: ' . $input . PHP_EOL;
-
-        $output = new BufferedOutput();
+        $output = new ConsoleOutput();
+        $output->writeln(sprintf('<info>[PreRunCommandLauncherSubscriber] Executing: %s</info>', $input));
 
         try {
-            $res = ConsoleTestCase::runCommand($input, $output, $app, $this->exitOnError);
+            [$exitCode] = ConsoleTestCase::runCommand($input, $output);
         } catch (\Throwable $e) {
-            $app->renderThrowable($e, $output);
+            $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
+            $output->writeln(sprintf('<comment>%s</comment>', $e->getTraceAsString()));
 
-            if ($this->exitOnError) {
-                exit(1);
-            }
-
-            echo '[PreRunCommandLauncherSubscriber] Pre-run command has failed.' . PHP_EOL;
-
-            return;
+            $exitCode = 1;
         }
 
-        echo $res->fetch();
+        if ($this->exitOnError && $exitCode > 0) {
+            exit($exitCode);
+        }
 
-        echo '[PreRunCommandLauncherSubscriber] Pre-run command has been completed.' . PHP_EOL;
+        $output->writeln('<info>[PreRunCommandLauncherSubscriber] Pre-run command has been completed.</info>');
     }
 }
