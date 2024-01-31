@@ -9,7 +9,7 @@
 Add to your phpunit.xml extension and configure paths (comma separated relative file paths from your phpunit.xml configuration file):
 ````XML 
 <bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunEnvLoaderExtension">
-    <parameter name="paths" value='../.env,.env'/>
+    <parameter name="paths" value="../.env,.env"/>
 </bootstrap>
 ````
 
@@ -17,7 +17,9 @@ Add to your phpunit.xml extension and configure paths (comma separated relative 
 Add to your phpunit.xml extension:
 ````XML
 <bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunCommandLauncherExtension">
-     <parameter name="command" value='functional-test:fixtures:load'/>
+     <parameter name="command" value="functional-test:fixtures:load"/>
+    <!--Default is false. If true, if command's exit code > 0 then tests will fail immediately-->
+    <parameter name="exitOnError" value="true" />
 </bootstrap>
 ````
 
@@ -26,12 +28,27 @@ Add to your phpunit.xml extension:
 ````XML
 <bootstrap class="\PhpSolution\FunctionalTest\PhpUnit\Extension\DoctrineMigrationExtension" />
 ````
+Or simply:
+````XML
+<bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunCommandLauncherExtension">
+    <parameter name="command" value="doctrine:migration:migrate --no-interaction"/>
+    <parameter name="exitOnError" value="true" />
+</bootstrap>
+````
 
-## Run command with parameters
+## Run sf command with parameters
 Add to your phpunit.xml extension:
 ````XML
 <bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunCommandLauncherExtension">
-    <parameter name="command" value='doctrine:mongodb:schema:drop --collection'/>
+    <parameter name="command" value="doctrine:mongodb:schema:drop --collection"/>
+</bootstrap>
+````
+
+## Run native command with parameters
+Add to your phpunit.xml extension:
+````XML
+<bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunNativeCommandLauncherExtension">
+    <parameter name="command" value="bin/console doctrine:mongodb:schema:drop --collection"/>
 </bootstrap>
 ````
     

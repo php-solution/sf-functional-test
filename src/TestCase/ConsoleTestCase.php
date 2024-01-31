@@ -10,9 +10,9 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 class ConsoleTestCase extends AppTestCase
 {
-    public static function runConsoleCommand(ArgvInput $input, Application $consoleApp = null): BufferedOutput
+    public static function runConsoleCommand(ArgvInput $input, Application $consoleApp = null, bool $autoExit = false): BufferedOutput
     {
-        $consoleApp ??= self::createConsoleApp();
+        $consoleApp ??= self::createConsoleApp([], $autoExit);
 
         $output = new BufferedOutput();
         $consoleApp->run($input, $output);

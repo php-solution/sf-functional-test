@@ -12,9 +12,13 @@ use Symfony\Component\Console\Input\StringInput;
 class PreRunCommandLauncherSubscriber implements StartedSubscriber
 {
     private string $command;
-    public function __construct(string $command)
+
+    private bool $exitOnError;
+
+    public function __construct(string $command, bool $exitOnError = false)
     {
         $this->command = $command;
+        $this->exitOnError = $exitOnError;
     }
 
     public function notify(Started $event): void
@@ -33,10 +37,24 @@ class PreRunCommandLauncherSubscriber implements StartedSubscriber
             $input = new StringInput($newCommand);
         }
 
-        print '[PreRunCommandLauncherSubscriber] Executing: ' . $input . PHP_EOL;
+        echo '[PreRunCommandLauncherSubscriber] Executing: ' . $input . PHP_EOL;
 
-        print ConsoleTestCase::runConsoleCommand($input)->fetch();
+        try {
+            $res = ConsoleTestCase::runCommand($input, null, $this->exitOnError);
+        } catch (\Throwable $e) {
+            var_export($e);
 
-        print '[PreRunCommandLauncherSubscriber] Pre-run command has been completed.' . PHP_EOL;
+            if ($this->exitOnError) {
+                exit(1);
+            }
+
+            echo '[PreRunCommandLauncherSubscriber] Pre-run command has failed.' . PHP_EOL;
+
+            return;
+        }
+
+        echo $res->fetch();
+
+        echo '[PreRunCommandLauncherSubscriber] Pre-run command has been completed.' . PHP_EOL;
     }
 }
