@@ -10,13 +10,14 @@
     convertWarningsToExceptions = "true"
     processIsolation            = "false"
     stopOnFailure               = "false"
-    syntaxCheck                 = "false"
-    bootstrap                   = "../app/autoload.php" >
+    syntaxCheck                 = "false" >
 
     <php>
         <ini name="memory_limit" value="1024M"/>
         <server name="KERNEL_DIR" value="../app/" />
         <server name="KERNEL_CLASS" value="AppKernel" />
+        <env name="APP_ENV" value="test" force="true"/>
+        <env name="APP_DEBUG" value="yes" force="true"/>
     </php>
 
     <testsuites>
@@ -34,18 +35,21 @@
             </exclude>
         </whitelist>
     </filter>
+    <extensions>
+        <bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\DoctrineMigrationExtension"/>
 
-    <listeners>
-        <listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\MigrationLauncher">
-        </listener>
-        <listener class="PhpSolution\FunctionalTest\PHPUnit\Listener\FixtureLoader">
-            <arguments>
-                <array>
-                    <element key="--fixtures">
-                        <string>%kernel.root_dir%/../tests/DataFixtures</string>
-                    </element>
-                </array>
-            </arguments>
-        </listener>
-    </listeners>
+        <bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunEnvLoaderExtension">
+            <parameter name="paths" value="../.env,.env"/>
+        </bootstrap>
+
+        <bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunCommandLauncherExtension">
+            <parameter name="command" value="functional-test:fixtures:load"/>
+            <!--Default is false. If true, if command's exit code > 0 then tests will fail immediately-->
+            <parameter name="exitOnError" value="true" />
+        </bootstrap>
+
+        <bootstrap class="PhpSolution\FunctionalTest\PhpUnit\Extension\PreRunCommandLauncherExtension">
+            <parameter name="command" value="ongr:es:index:create --if-not-exists --index=ecom_offers_products"/>
+        </bootstrap>
+    </extensions>
 </phpunit>

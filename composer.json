@@ -1,6 +1,6 @@
 {
     "name": "php-solution/sf-functional-test",
-    "type": "component",
+    "type": "library",
     "description": "Extra functionality for work with Symfony functional tests",
     "license": "MIT",
     "authors": [
@@ -14,18 +14,17 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.1",
         "ext-json": "*",
         "doctrine/data-fixtures": ">=1.2",
         "justinrainbow/json-schema": ">=5.2",
         "nelmio/alice": ">=3.0",
         "phpspec/prophecy-phpunit": ">=2.0",
-        "phpunit/phpunit": ">=9.0",
+        "phpunit/phpunit": ">=10.0",
         "symfony/console": ">=5.0",
         "symfony/framework-bundle": ">=5.0",
         "symfony/property-access": ">=5.0",
         "symfony/browser-kit": ">=5.0",
-        "symfony/phpunit-bridge": ">=5.0",
         "theofidry/alice-data-fixtures": ">=1.0"
     },
     "require-dev": {

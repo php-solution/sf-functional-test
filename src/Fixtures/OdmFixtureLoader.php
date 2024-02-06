@@ -10,8 +10,6 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 class OdmFixtureLoader extends AbstractFixtureLoader implements FixtureLoaderInterface
 {
     /**
-     * @param string|null $objectManagerName
-     *
      * @return DocumentManager
      */
     public function getObjectManager(?string $objectManagerName): ObjectManager

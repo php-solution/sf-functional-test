@@ -6,6 +6,7 @@ namespace PhpSolution\FunctionalTest\TestCase;
 
 use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -36,13 +37,6 @@ abstract class AppTestCase extends WebTestCase
     protected static function getKernelClass(): string
     {
         return array_key_exists('KERNEL_CLASS', $_SERVER) ? $_SERVER['KERNEL_CLASS'] : parent::getKernelClass();
-    }
-
-    protected static function getContainer(): ContainerInterface
-    {
-        static::bootKernel();
-
-        return static::$kernel->getContainer();
     }
 
     protected static function generateUrl(string $name, array $parameters = []): string
