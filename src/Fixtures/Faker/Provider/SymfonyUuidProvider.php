@@ -10,7 +10,7 @@ use Symfony\Component\Uid\UuidV4;
 
 final class SymfonyUuidProvider
 {
-    public function uuidv4(string $uuid = null): AbstractUid
+    public function uuidv4(string|null $uuid = null): AbstractUid
     {
         return $uuid ? Uuid::fromString($uuid) : new UuidV4();
     }

@@ -10,12 +10,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait FixturesTrait
 {
-    protected static function loadOrm(array $files, string $entityManagerName = null): array
+    protected static function loadOrm(array $files, string|null $entityManagerName = null): array
     {
         return (new OrmFixtureLoader(self::getContainer()))->load($files, $entityManagerName);
     }
 
-    protected static function loadOdm(array $files, string $documentManagerName = null): array
+    protected static function loadOdm(array $files, string|null $documentManagerName = null): array
     {
         return (new OdmFixtureLoader(self::getContainer()))->load($files, $documentManagerName);
     }
@@ -27,7 +27,7 @@ trait FixturesTrait
      *
      * @return mixed
      */
-    protected static function load(array $files, string $type = null, string $objectManagerName = null)
+    protected static function load(array $files, string|null $type = null, string $objectManagerName = null)
     {
         switch (true)
         {
