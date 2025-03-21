@@ -19,7 +19,7 @@ abstract class AbstractFixtureLoader implements FixtureLoaderInterface
         $this->container = $container;
     }
 
-    public function load(array $files, string $objectManagerName = null): array
+    public function load(array $files, string|null $objectManagerName = null): array
     {
         $fixtureFiles = [];
         foreach ($files as $file) {

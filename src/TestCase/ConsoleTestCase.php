@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ConsoleTestCase extends AppTestCase
 {
-    public static function runConsoleCommand(string $name, array $parameters = [], Application $consoleApp = null): BufferedOutput
+    public static function runConsoleCommand(string $name, array $parameters = [], Application|null $consoleApp = null): BufferedOutput
     {
         $parameters = array_merge(['command' => $name], $parameters);
         $input = new ArrayInput($parameters);
@@ -32,7 +32,7 @@ class ConsoleTestCase extends AppTestCase
     public static function runCommand(
         InputInterface $input,
         OutputInterface $output,
-        Application $consoleApp = null,
+        Application|null $consoleApp = null,
     ): array {
         $input = self::setDefaultOptions($input);
 
