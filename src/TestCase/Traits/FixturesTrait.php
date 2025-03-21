@@ -27,7 +27,7 @@ trait FixturesTrait
      *
      * @return mixed
      */
-    protected static function load(array $files, string|null $type = null, string $objectManagerName = null)
+    protected static function load(array $files, string|null $type = null, string|null $objectManagerName = null)
     {
         switch (true)
         {
