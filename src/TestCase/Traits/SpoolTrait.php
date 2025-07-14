@@ -46,6 +46,5 @@ trait SpoolTrait
         return self::getContainer()->getParameter('swiftmailer.spool.default.file.path');
     }
 
-    // Uncomment when php 8.0 will be enabled
-//    abstract protected static function getContainer(): ContainerInterface;
+    abstract protected static function getContainer(): ContainerInterface;
 }

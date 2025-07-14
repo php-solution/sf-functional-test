@@ -5,50 +5,41 @@ declare(strict_types=1);
 namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
 use Doctrine\Persistence\AbstractManagerRegistry;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait DocumentTrait
 {
     protected static function getDoctrine(): AbstractManagerRegistry
     {
-        return self::getContainer()->get('doctrine_mongodb');
+        /** @var AbstractManagerRegistry $manager */
+        $manager = self::getContainer()->get('doctrine_mongodb');
+
+        return $manager;
     }
 
     /**
-     * This is more convenient alias for getting test document.
+     * This is a more convenient alias for getting test document.
      *
-     * @param string $documentClass
-     * @param array  $criteria
-     *
-     * @return object|null
+     * @param array<string, mixed> $criteria
      */
-    protected static function findDocument(string $documentClass, array $criteria = [])
+    protected static function findDocument(string $documentClass, array $criteria = []): ?object
     {
-        $repository = self::getDoctrine()->getRepository($documentClass);
-
-        return $repository->findOneBy($criteria);
+        return self::getDoctrine()->getRepository($documentClass)->findOneBy($criteria);
     }
 
     /**
-     * This is more convenient alias for getting test documents.
+     * This is a more convenient alias for getting test documents.
      *
-     * @param string $documentClass
-     * @param array  $criteria
-     * @param array  $orderBy
+     * @param array<string, mixed> $criteria
+     * @param array<string, int> $orderBy
      *
-     * @return array
+     * @return array<object>
      */
-    protected static function findDocuments(string $documentClass, array $criteria = [], array $orderBy = [])
+    protected static function findDocuments(string $documentClass, array $criteria = [], array $orderBy = []): array
     {
-        $repository = self::getDoctrine()->getRepository($documentClass);
-
-        return $repository->findBy($criteria, $orderBy);
+        return self::getDoctrine()->getRepository($documentClass)->findBy($criteria, $orderBy);
     }
 
-    /**
-     * @param object $document
-     *
-     * @return object
-     */
     protected static function refreshDocument(object $document): object
     {
         $em = self::getDoctrine()->getManager();
@@ -57,6 +48,5 @@ trait DocumentTrait
         return $document;
     }
 
-// Uncomment when php 8.0 will be enabled
-//    abstract protected static function getContainer(): ContainerInterface;
+    abstract protected static function getContainer(): ContainerInterface;
 }
