@@ -101,7 +101,6 @@ but you can always disable or enable new collectors by passing them in the `with
 4) Use profiler to get collectors:
 ````php
 self::getCollector($profiler, 'http_client');
-self::getDoctrineCollector($profiler); // returns DoctrineCollector
 ````
 
 ### Work with Doctrine (ORM, ODM)
@@ -116,7 +115,7 @@ protected function findEntity(string $entityClass, string $orderBy = 'id', array
 protected function findDocument(string $documentClass, array $criteria = [])
 protected function findDocuments(string $documentClass, array $criteria = [], array $orderBy = [])
 ````
-   
+
 4. Refresh Entity:
 ````php
 protected function refreshEntity($entity) 
@@ -125,16 +124,25 @@ protected function refreshDocument($document)
 
 #### Assert doctrine queries using request profiler
 
-1. Make sure you have setup the profiler as described above.
+1. Make sure you have set up the profiler as described above.
+2. Add ProfilerTrait and EntityProfilerTrait to your TestCase:
+````php
+use PhpSolution\FunctionalTest\TestCase\ProfilerTrait;
+use PhpSolution\FunctionalTest\TestCase\EntityProfilerTrait;
+````
 2. Assert queries using profiler:
 ````php
-self::assertDoctrineQueriesCount(3, $profiler);
-self::assertDoctrineQueriesCountLessThanOrEqual(3, $profiler);
-self::assertDoctrineSelectQueriesCountLessThanOrEqual(2, $profiler);
-
-// or even debug queries itself
-
 self::getDoctrineCollector($profiler)->getQueries(); // returns array of executed queries
+self::assertDoctrineQueriesCount(8, $profiler);
+self::assertDoctrineQueriesCountLessThanOrEqual(3, $profiler);
+self::assertDoctrineSelectQueriesCount(2, $profiler);
+self::assertDoctrineSelectQueriesCountLessThanOrEqual(2, $profiler);
+self::assertDoctrineUpdateQueriesCount(1, $profiler);
+self::assertDoctrineUpdateQueriesCountLessThanOrEqual(1, $profiler);
+self::assertDoctrineInsertQueriesCount(1, $profiler);
+self::assertDoctrineInsertQueriesCountLessThanOrEqual(1, $profiler);
+self::assertDoctrineDeleteQueriesCount(1, $profiler);
+self::assertDoctrineDeleteQueriesCountLessThanOrEqual(1, $profiler);
 ````
 
 ### Test emails

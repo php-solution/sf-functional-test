@@ -14,60 +14,7 @@ use Symfony\Component\HttpKernel\Profiler\Profiler;
 
 trait ProfilerTrait
 {
-    /**
-     * @throws \InvalidArgumentException
-     */
-    protected static function assertDoctrineQueriesCount(int $expectedCount, Profile|Profiler $profile): void
-    {
-        self::assertSame(
-            $expectedCount,
-            self::getDoctrineCollector($profile)->getQueryCount(),
-            'Too many database queries',
-        );
-    }
-
-    /**
-     * @throws \InvalidArgumentException
-     */
-    protected static function assertDoctrineQueriesCountLessThanOrEqual(
-        int $expectedCount,
-        Profile|Profiler $profile,
-    ): void {
-        self::assertLessThanOrEqual(
-            $expectedCount,
-            self::getDoctrineCollector($profile)->getQueryCount(),
-            'Too many database queries',
-        );
-    }
-
-    /**
-     * @throws \InvalidArgumentException
-     */
-    protected static function assertDoctrineSelectQueriesCountLessThanOrEqual(
-        int $expectedCount,
-        Profile|Profiler $profile,
-    ): void {
-        $queries = self::getDoctrineCollector($profile)->getQueries();
-        $cnt = 0;
-        foreach ($queries['default'] as $query) {
-            if (str_starts_with(strtolower($query['sql']), 'SELECT')) {
-                ++$cnt;
-            }
-        }
-        self::assertLessThanOrEqual($expectedCount, $cnt, 'Too many database queries');
-    }
-
-    /**
-     * @return DoctrineDataCollector
-     *
-     * @throws \InvalidArgumentException
-     */
-    protected static function getDoctrineCollector(Profile|Profiler $profile): object
-    {
-        return self::getCollector($profile, 'db');
-    }
-
-    protected static function getCollector(Profile|Profiler $profile, string $collectorName): object
+    private static function getCollector(Profile|Profiler $profile, string $collectorName): object
     {
         /** @var DoctrineDataCollector $collector */
         $collector = $profile instanceof Profile
@@ -83,7 +30,7 @@ trait ProfilerTrait
      *
      * @return array{ResponseWrapper, Profile}
      */
-    protected static function withRequestProfiler(
+    private static function withRequestProfiler(
         callable $callback,
         array $collectorNames = ['db', 'http_client', 'cache', 'memory'],
     ): array {
@@ -101,7 +48,7 @@ trait ProfilerTrait
     /**
      * @param array<string> $collectors
      */
-    protected static function loadProfiler(array $collectorNames = ['db', 'http_client', 'cache', 'memory']): Profiler
+    private static function loadProfiler(array $collectorNames = ['db', 'http_client', 'cache', 'memory']): Profiler
     {
         /** @var Profiler $profiler */
         $profiler = static::getContainer()->get('profiler');
