@@ -154,7 +154,7 @@ trait EntityProfilerTrait
         $cnt = 0;
 
         foreach ($queries['default'] as $query) {
-            if (str_starts_with(strtolower($query['sql']), $mask)) {
+            if (str_starts_with(strtolower($query['sql']), strtolower($mask))) {
                 ++$cnt;
             }
         }
