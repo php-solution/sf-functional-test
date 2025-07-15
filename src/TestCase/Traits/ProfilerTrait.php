@@ -73,6 +73,4 @@ trait ProfilerTrait
     }
 
     abstract private static function getContainer(): ContainerInterface;
-    abstract private static function assertSame(mixed $expected, mixed $actual, string $msg): void;
-    abstract private static function assertLessThanOrEqual(int|float $expected, int|float $actual, string $msg): void;
 }
