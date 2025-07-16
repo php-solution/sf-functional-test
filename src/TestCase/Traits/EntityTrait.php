@@ -5,27 +5,33 @@ declare(strict_types=1);
 namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
 use Doctrine\Persistence\AbstractManagerRegistry;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait EntityTrait
 {
     /**
-     * @return AbstractManagerRegistry|object
+     * @return AbstractManagerRegistry
      */
     protected static function getDoctrine(): AbstractManagerRegistry
     {
-        return self::getContainer()->get('doctrine');
+        /** @var AbstractManagerRegistry $manager */
+        $manager = self::getContainer()->get('doctrine');
+
+        return $manager;
     }
 
     /**
-     * This is more convenient alias for getting test entity.
+     * This is a more convenient alias for getting test entity.
      *
-     * @param string $entityClass
-     * @param array  $findBy
-     * @param array  $orderBy
+     * @template T of object
      *
-     * @return object|null
+     * @param class-string<T> $entityClass
+     * @param array<string, mixed> $findBy
+     * @param array<string, int> $orderBy
+     *
+     * @return T|null
      */
-    protected static function findEntity(string $entityClass, array $findBy = [], array $orderBy = [])
+    protected static function findEntity(string $entityClass, array $findBy = [], array $orderBy = []): ?object
     {
         $repository = self::getDoctrine()->getRepository($entityClass);
         $result = $repository->findBy($findBy, $orderBy, 1, 0);
@@ -33,11 +39,6 @@ trait EntityTrait
         return count($result) > 0 ? $result[0] : null;
     }
 
-    /**
-     * @param object $entity
-     *
-     * @return object
-     */
     protected static function refreshEntity(object $entity): object
     {
         $em = self::getDoctrine()->getManager();
@@ -46,6 +47,5 @@ trait EntityTrait
         return $entity;
     }
 
-// Uncomment when php 8.0 will be enabled
-//    abstract protected static function getContainer(): ContainerInterface;
+    abstract protected static function getContainer(): ContainerInterface;
 }

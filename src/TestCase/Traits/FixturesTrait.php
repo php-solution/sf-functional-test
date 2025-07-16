@@ -10,24 +10,30 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait FixturesTrait
 {
+    /**
+     * @param array<string> $files
+     *
+     * @return array<mixed>
+     */
     protected static function loadOrm(array $files, string|null $entityManagerName = null): array
     {
         return (new OrmFixtureLoader(self::getContainer()))->load($files, $entityManagerName);
     }
 
+    /**
+     * @param array<string> $files
+     *
+     * @return array<mixed>
+     */
     protected static function loadOdm(array $files, string|null $documentManagerName = null): array
     {
         return (new OdmFixtureLoader(self::getContainer()))->load($files, $documentManagerName);
     }
 
     /**
-     * @param array       $files
-     * @param string|null $type expected values: null, orm, odm
-     * @param string|null $objectManagerName
-     *
-     * @return mixed
+     * @param array<string> $files
      */
-    protected static function load(array $files, string|null $type = null, string|null $objectManagerName = null)
+    protected static function load(array $files, string|null $type = null, string|null $objectManagerName = null): mixed
     {
         switch (true)
         {
@@ -44,7 +50,7 @@ trait FixturesTrait
 
     /**
      * @param string $path
-     * @param bool   $assoc
+     * @param bool $assoc
      *
      * @return array|\stdClass
      */
@@ -70,6 +76,5 @@ trait FixturesTrait
         return $realPath;
     }
 
-// Uncomment when php 8.0 will be enabled
-//    abstract protected static function getContainer(): ContainerInterface;
+    abstract protected static function getContainer(): ContainerInterface;
 }
