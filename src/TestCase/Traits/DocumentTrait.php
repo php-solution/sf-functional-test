@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
 use Doctrine\Persistence\AbstractManagerRegistry;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait DocumentTrait
 {
@@ -47,6 +46,4 @@ trait DocumentTrait
 
         return $document;
     }
-
-    abstract protected static function getContainer(): ContainerInterface;
 }
