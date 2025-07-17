@@ -6,7 +6,6 @@ namespace PhpSolution\FunctionalTest\TestCase\Traits;
 
 use PhpSolution\FunctionalTest\Fixtures\OdmFixtureLoader;
 use PhpSolution\FunctionalTest\Fixtures\OrmFixtureLoader;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait FixturesTrait
 {
@@ -75,6 +74,4 @@ trait FixturesTrait
 
         return $realPath;
     }
-
-    abstract protected static function getContainer(): ContainerInterface;
 }

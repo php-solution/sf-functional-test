@@ -7,7 +7,6 @@ namespace PhpSolution\FunctionalTest\TestCase\Traits;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 trait SpoolTrait
 {
@@ -45,6 +44,4 @@ trait SpoolTrait
     {
         return self::getContainer()->getParameter('swiftmailer.spool.default.file.path');
     }
-
-    abstract protected static function getContainer(): ContainerInterface;
 }
