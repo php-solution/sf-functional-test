@@ -28,8 +28,6 @@ abstract class AppTestCase extends WebTestCase
         static::$kernelBooted = true;
 
         if (!static::$booted || !static::$kernel instanceof KernelInterface) {
-            static::$kernelBooted = true;
-
             return parent::bootKernel($options);
         }
 
