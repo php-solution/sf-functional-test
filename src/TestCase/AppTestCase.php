@@ -25,10 +25,10 @@ abstract class AppTestCase extends WebTestCase
 
     protected static function bootKernel(array $options = []): KernelInterface
     {
-        if (false === static::$kernelBooted) {
-            static::$kernelBooted = true;
+        static::$kernelBooted = true;
 
-            parent::bootKernel($options);
+        if (!static::$booted || !static::$kernel instanceof KernelInterface) {
+            return parent::bootKernel($options);
         }
 
         return static::$kernel;
