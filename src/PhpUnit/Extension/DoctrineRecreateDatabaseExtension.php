@@ -19,7 +19,7 @@ class DoctrineRecreateDatabaseExtension implements Extension
     {
         $facade->registerSubscriber(
             new PreRunCommandLauncherSubscriber(
-                'doctrine:database:drop --if-not-exists --force',
+                'doctrine:database:drop --if-exists --force',
                 $this->exitOnError($parameters)
             )
         );
